@@ -5,811 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Massel Signature</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Georgia', serif;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logo {
-            text-align: center;
-            padding: 20px;
-            font-size: 2.5em;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #d4af37;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            padding: 15px 0;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-            color: #d4af37;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 15px 35px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .nav-btn:hover:before {
-            left: 100%;
-        }
-
-        .nav-btn:hover {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            border-color: #d4af37;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: #000;
-            border-color: #d4af37;
-        }
-
-        .page {
-            display: none;
-            margin-top: 200px;
-            min-height: calc(100vh - 200px);
-            padding: 40px 20px;
-        }
-
-        .page.active {
-            display: block;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .hero {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .hero:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
-        }
-
-        .main-image-container {
-            max-width: 900px;
-            width: 100%;
-            position: relative;
-        }
-
-        .main-image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 10px;
-            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
-            transform: scaleX(-1);
-        }
-
-        .tagline {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 1.8em;
-            color: #d4af37;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .manifesto {
-            max-width: 900px;
-            margin: 60px auto 0;
-            padding: 0 20px;
-            text-align: center;
-            line-height: 2;
-            font-size: 1.15em;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.5px;
-        }
-
-        .manifesto p {
-            margin-bottom: 25px;
-        }
-
-        .manifesto p:first-child {
-            font-size: 1.2em;
-            color: #d4af37;
-            font-weight: 600;
-        }
-
-        .manifesto p:last-child {
-            font-size: 1.3em;
-            color: #d4af37;
-            font-weight: 700;
-            margin-top: 40px;
-            letter-spacing: 2px;
-        }
-
-        .gallery {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .gallery-title {
-            text-align: center;
-            font-size: 3em;
-            color: #d4af37;
-            letter-spacing: 4px;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            padding: 20px;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.2);
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.4s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .placeholder-page {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 100px 20px;
-        }
-
-        .placeholder-page h1 {
-            font-size: 3.5em;
-            color: #d4af37;
-            margin-bottom: 30px;
-            letter-spacing: 3px;
-        }
-
-        .placeholder-page p {
-            font-size: 1.5em;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.8;
-        }
-
-        .contact-footer {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-        }
-
-        .contact-footer-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: #000;
-            border: 2px solid #d4af37;
-            padding: 18px 40px;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 50px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 700;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
-        }
-
-        .contact-footer-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
-            background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%);
-        }
-
-        .contact-form-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .contact-form {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
-            padding: 60px;
-            border-radius: 20px;
-            border: 2px solid rgba(212, 175, 55, 0.15);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #d4af37;
-            font-size: 0.95em;
-            margin-bottom: 8px;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 16px 20px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1.5px solid rgba(212, 175, 55, 0.2);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1em;
-            font-family: 'Georgia', serif;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #d4af37;
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 140px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-            color: #d4af37;
-            border: 2px solid rgba(212, 175, 55, 0.4);
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
-            margin-top: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .submit-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .submit-btn:hover:before {
-            left: 100%;
-        }
-
-        .submit-btn:hover {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            border-color: #d4af37;
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-
-        .cart-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.15);
-        }
-
-        .cart-items {
-            display: none;
-        }
-
-        .cart-items.has-items {
-            display: block;
-        }
-
-        .cart-item {
-            display: grid;
-            grid-template-columns: 200px 1fr auto;
-            gap: 30px;
-            padding: 30px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 15px;
-            align-items: center;
-        }
-
-        .cart-item-image {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .cart-item-details h3 {
-            color: #d4af37;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .cart-item-details p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 15px;
-        }
-
-        .cart-item-price {
-            font-size: 1.8em;
-            color: #d4af37;
-            font-weight: bold;
-        }
-
-        .cart-item-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: flex-end;
-        }
-
-        .remove-btn {
-            background: transparent;
-            color: #ff4444;
-            border: 1px solid #ff4444;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
-        }
-
-        .remove-btn:hover {
-            background: #ff4444;
-            color: #fff;
-        }
-
-        .cart-summary {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            margin-top: 40px;
-        }
-
-        .cart-summary h2 {
-            color: #d4af37;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-
-        .cart-total {
-            font-size: 2.5em;
-            color: #d4af37;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.3em;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
-            margin-top: 20px;
-        }
-
-        .checkout-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%);
-        }
-
-        .add-to-cart-btn {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: #000;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
-            z-index: 10;
-        }
-
-        .gallery-item {
-            position: relative;
-        }
-
-        .gallery-item:hover .add-to-cart-btn {
-            opacity: 1;
-        }
-
-        .add-to-cart-btn:hover {
-            background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%);
-            transform: translateX(-50%) translateY(-5px);
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #d4af37;
-            color: #000;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-
-        .checkout-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 40px;
-            padding: 20px;
-        }
-
-        .checkout-summary {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            height: fit-content;
-        }
-
-        .checkout-summary h2 {
-            color: #d4af37;
-            margin-bottom: 30px;
-            font-size: 1.8em;
-        }
-
-        .checkout-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .checkout-item:last-child {
-            border-bottom: none;
-        }
-
-        .checkout-total {
-            font-size: 2em;
-            color: #d4af37;
-            font-weight: bold;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid rgba(212, 175, 55, 0.3);
-        }
-
-        .payment-section {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .payment-section h2 {
-            color: #d4af37;
-            margin-bottom: 20px;
-        }
-
-        .checkout-form {
-            margin-top: 20px;
-        }
-
-        .payment-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .payment-method {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .payment-method:hover {
-            border-color: #d4af37;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .payment-method input[type="radio"] {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .payment-option {
-            flex: 1;
-        }
-
-        .payment-option strong {
-            color: #d4af37;
-            font-size: 1.1em;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .payment-option p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9em;
-        }
-
-        .back-btn {
-            width: 100%;
-            padding: 15px;
-            background: transparent;
-            color: #d4af37;
-            border: 2px solid rgba(212, 175, 55, 0.4);
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
-            margin-top: 15px;
-        }
-
-        .back-btn:hover {
-            background: rgba(212, 175, 55, 0.1);
-            border-color: #d4af37;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, serif; background: #000; color: #fff; overflow-x: hidden; }
+        .header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .logo { text-align: center; padding: 20px; font-size: 2.5em; font-weight: bold; letter-spacing: 3px; color: #d4af37; }
+        .nav { display: flex; justify-content: center; gap: 0; padding: 15px 0; flex-wrap: wrap; }
+        .nav-btn { background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); color: #d4af37; border: 1px solid rgba(212,175,55,0.3); padding: 15px 35px; font-size: 1.1em; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; transition: all 0.3s; }
+        .nav-btn:hover { background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); border-color: #d4af37; color: #fff; transform: translateY(-2px); }
+        .nav-btn.active { background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; }
+        .page { display: none; margin-top: 200px; min-height: calc(100vh - 200px); padding: 40px 20px; }
+        .page.active { display: block; animation: fadeIn 0.6s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .main-image-container { max-width: 900px; margin: 0 auto; }
+        .main-image-container img { width: 100%; border-radius: 10px; box-shadow: 0 20px 60px rgba(212,175,55,0.2); transform: scaleX(-1); }
+        .tagline { text-align: center; margin-top: 40px; font-size: 1.8em; color: #d4af37; letter-spacing: 3px; text-transform: uppercase; }
+        .manifesto { max-width: 900px; margin: 60px auto 0; padding: 0 20px; text-align: center; line-height: 2; font-size: 1.15em; }
+        .manifesto p { margin-bottom: 25px; }
+        .manifesto p:first-child, .manifesto p:last-child { color: #d4af37; font-weight: 600; }
+        .gallery { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+        .gallery-title { text-align: center; font-size: 3em; color: #d4af37; margin-bottom: 60px; text-transform: uppercase; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+        .gallery-item { position: relative; border-radius: 15px; box-shadow: 0 10px 40px rgba(212,175,55,0.2); padding-bottom: 80px; background: #000; transition: all 0.4s; }
+        .gallery-item:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(212,175,55,0.4); }
+        .gallery-item img { width: 100%; border-radius: 15px 15px 0 0; display: block; }
+        .add-to-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
+        .add-to-cart-btn:hover { background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%); transform: translateX(-50%) translateY(-5px); }
+        .contact-footer { position: fixed; bottom: 30px; right: 30px; z-index: 999; }
+        .contact-footer-btn { background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: 2px solid #d4af37; padding: 18px 40px; font-size: 1.2em; cursor: pointer; border-radius: 50px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; font-family: Georgia, serif; }
+        .cart-container { max-width: 1200px; margin: 40px auto; padding: 20px; }
+        .cart-empty { text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.02); border-radius: 15px; }
+        .cart-items { display: none; }
+        .cart-items.has-items { display: block; }
+        .cart-item { display: grid; grid-template-columns: 200px 1fr auto; gap: 30px; padding: 30px; margin-bottom: 20px; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.15); border-radius: 15px; align-items: center; }
+        .cart-item-image { width: 200px; height: 200px; object-fit: cover; border-radius: 10px; }
+        .cart-item-details h3 { color: #d4af37; font-size: 1.5em; margin-bottom: 10px; }
+        .cart-item-price { font-size: 1.8em; color: #d4af37; font-weight: bold; }
+        .remove-btn { background: transparent; color: #ff4444; border: 1px solid #ff4444; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: Georgia, serif; }
+        .remove-btn:hover { background: #ff4444; color: #fff; }
+        .cart-summary { background: linear-gradient(135deg, rgba(26,26,26,0.6) 0%, rgba(10,10,10,0.8) 100%); padding: 40px; border-radius: 15px; border: 2px solid rgba(212,175,55,0.2); margin-top: 40px; }
+        .cart-summary h2 { color: #d4af37; font-size: 2em; margin-bottom: 20px; }
+        .cart-total { font-size: 2.5em; color: #d4af37; font-weight: bold; margin: 20px 0; }
+        .checkout-btn { width: 100%; padding: 20px; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; border-radius: 10px; font-size: 1.3em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 20px; }
+        .placeholder-page { max-width: 1200px; margin: 0 auto; text-align: center; padding: 100px 20px; }
+        .placeholder-page h1 { font-size: 3.5em; color: #d4af37; margin-bottom: 30px; }
         @media (max-width: 768px) {
-            .logo {
-                font-size: 1.8em;
-                padding: 15px;
-            }
-
-            .nav {
-                padding: 10px 0;
-            }
-
-            .nav-btn {
-                padding: 12px 20px;
-                font-size: 0.9em;
-                letter-spacing: 1px;
-            }
-
-            .page {
-                margin-top: 280px;
-            }
-
-            .tagline {
-                font-size: 1.2em;
-                padding: 0 20px;
-            }
-
-            .gallery-title {
-                font-size: 2em;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .placeholder-page h1 {
-                font-size: 2em;
-            }
-
-            .placeholder-page p {
-                font-size: 1.2em;
-            }
-
-            .contact-footer {
-                bottom: 20px;
-                right: 20px;
-            }
-
-            .contact-footer-btn {
-                padding: 15px 30px;
-                font-size: 1em;
-            }
-
-            .manifesto {
-                font-size: 1em;
-                line-height: 1.8;
-                margin-top: 40px;
-            }
-
-            .manifesto p:first-child {
-                font-size: 1.1em;
-            }
-
-            .manifesto p:last-child {
-                font-size: 1.15em;
-            }
-
-            .contact-form {
-                padding: 30px 20px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .form-group label {
-                font-size: 0.85em;
-            }
-
-            .form-group input,
-            .form-group textarea {
-                padding: 12px 15px;
-                font-size: 0.95em;
-            }
-
-            .submit-btn {
-                font-size: 0.95em;
-                padding: 16px;
-                letter-spacing: 2px;
-            }
-
-            .cart-item {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                text-align: center;
-            }
-
-            .cart-item-image {
-                width: 100%;
-                height: auto;
-                margin: 0 auto;
-            }
-
-            .cart-item-actions {
-                align-items: center;
-            }
-
-            .checkout-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .payment-section {
-                padding: 30px 20px;
-            }
-
-            .checkout-summary {
-                padding: 30px 20px;
-            }
+            .logo { font-size: 1.8em; }
+            .nav-btn { padding: 12px 20px; font-size: 0.9em; }
+            .page { margin-top: 280px; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .cart-item { grid-template-columns: 1fr; text-align: center; }
+            .cart-item-image { width: 100%; height: auto; }
         }
     </style>
 </head>
@@ -831,248 +76,93 @@
         <button class="contact-footer-btn" onclick="showPage('contact')">Contact</button>
     </div>
 
-    <!-- Accueil Page -->
     <div id="accueil" class="page active">
-        <div class="hero">
-            <div class="main-image-container">
-                <img src="./gorilla.png" alt="Massel Signature" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/gorilla.png'">
-                <div class="tagline">Sophistication. Power. Signature.</div>
-            </div>
+        <div class="main-image-container">
+            <img src="gorilla.png" alt="Massel Signature">
+            <div class="tagline">Sophistication. Power. Signature.</div>
         </div>
         <div class="manifesto">
             <p>Chaque création est une pièce unique, conçue pour habiller vos espaces.</p>
             <p>Chez Massel Signature, l'art digital devient une signature.</p>
             <p>Chaque affiche est pensée comme une œuvre à part entière, mêlant caractère, émotion et esthétisme contemporain.</p>
-            <p>Mes créations transforment vos murs en véritables déclarations visuelles. Elles apportent une atmosphère, une identité, une présence. Inspirées par la puissance animale, le luxe discret et l'univers bohème, elles s'intègrent aussi bien dans un intérieur moderne que dans un espace plus chaleureux.</p>
-            <p>Ici, vous ne choisissez pas simplement une affiche.<br>Vous choisissez une ambiance. Une énergie. Une façon d'habiter votre espace.</p>
-            <p>Toutes les œuvres sont livrées en format digital haute définition, vous laissant une liberté totale d'impression : papier, toile, aluminium ou plexiglas, au format qui vous ressemble.</p>
+            <p>Mes créations transforment vos murs en véritables déclarations visuelles.</p>
             <p>Massel Signature, c'est l'art comme empreinte personnelle.</p>
         </div>
     </div>
 
-    <!-- Royale Strip Page -->
     <div id="royale-strip" class="page">
         <div class="gallery">
             <h1 class="gallery-title">Royale Strip Collection</h1>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="./gorilla.png" alt="Gorilla Poker" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/gorilla.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Gorilla Poker', './gorilla.png', 149); event.stopPropagation();">Ajouter - 149€</button>
+                    <img src="gorilla.png" alt="Gorilla">
+                    <button class="add-to-cart-btn" onclick="addToCart('Gorilla Poker', 'gorilla.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="./lioness.png" alt="Lioness" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/lioness.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Lioness Noir', './lioness.png', 149); event.stopPropagation();">Ajouter - 149€</button>
+                    <img src="lioness.png" alt="Lioness">
+                    <button class="add-to-cart-btn" onclick="addToCart('Lioness Noir', 'lioness.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="./buffalo.png" alt="Buffalo" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/buffalo.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Buffalo Power', './buffalo.png', 149); event.stopPropagation();">Ajouter - 149€</button>
+                    <img src="buffalo.png" alt="Buffalo">
+                    <button class="add-to-cart-btn" onclick="addToCart('Buffalo Power', 'buffalo.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="./wolf.png" alt="Wolf" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/wolf.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Wolf Intensity', './wolf.png', 149); event.stopPropagation();">Ajouter - 149€</button>
+                    <img src="wolf.png" alt="Wolf">
+                    <button class="add-to-cart-btn" onclick="addToCart('Wolf Intensity', 'wolf.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="./lion.png" alt="Lion Cub" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/lion.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Lion Legacy', './lion.png', 149); event.stopPropagation();">Ajouter - 149€</button>
+                    <img src="lion.png" alt="Lion">
+                    <button class="add-to-cart-btn" onclick="addToCart('Lion Legacy', 'lion.png', 149)">Ajouter - 149€</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Icons Page -->
     <div id="icons" class="page">
-        <div class="placeholder-page">
-            <h1>Icons</h1>
-            <p>Coming Soon</p>
-        </div>
+        <div class="placeholder-page"><h1>Icons</h1><p>Coming Soon</p></div>
     </div>
 
-    <!-- Bohème Page -->
     <div id="boheme" class="page">
-        <div class="placeholder-page">
-            <h1>Bohème</h1>
-            <p>Coming Soon</p>
-        </div>
+        <div class="placeholder-page"><h1>Bohème</h1><p>Coming Soon</p></div>
     </div>
 
-    <!-- Enfant Page -->
     <div id="enfant" class="page">
-        <div class="placeholder-page">
-            <h1>Enfant</h1>
-            <p>Coming Soon</p>
-        </div>
+        <div class="placeholder-page"><h1>Enfant</h1><p>Coming Soon</p></div>
     </div>
 
-    <!-- Panier Page -->
     <div id="panier" class="page">
         <div class="placeholder-page">
             <h1>Panier</h1>
             <div class="cart-container">
                 <div id="cart-empty" class="cart-empty">
                     <p style="font-size: 1.2em; margin-bottom: 20px;">Votre panier est vide</p>
-                    <button class="nav-btn" onclick="showPage('royale-strip')" style="display: inline-block; margin-top: 20px;">Découvrir nos œuvres</button>
+                    <button class="nav-btn" onclick="showPage('royale-strip')">Découvrir nos œuvres</button>
                 </div>
-                
-                <div id="cart-items" class="cart-items">
-                    <!-- Cart items will be inserted here by JavaScript -->
-                </div>
-                
+                <div id="cart-items" class="cart-items"></div>
                 <div id="cart-summary" class="cart-summary" style="display: none;">
                     <h2>Résumé</h2>
-                    <div class="cart-total">
-                        Total: <span id="cart-total-amount">0</span>€
-                    </div>
-                    <button class="checkout-btn" onclick="showCheckout()">Procéder au paiement</button>
+                    <div class="cart-total">Total: <span id="cart-total-amount">0</span>€</div>
+                    <button class="checkout-btn" onclick="alert('Paiement: Total ' + cart.reduce((s,i) => s + i.price, 0) + '€. Intégration Stripe/PayPal à venir.')">Procéder au paiement</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Checkout Page -->
-    <div id="checkout" class="page">
-        <div class="placeholder-page">
-            <h1>Paiement</h1>
-            <div class="checkout-container">
-                <div class="checkout-summary">
-                    <h2>Votre commande</h2>
-                    <div id="checkout-items"></div>
-                    <div class="checkout-total">
-                        Total à payer: <span id="checkout-total-amount">0</span>€
-                    </div>
-                </div>
-
-                <div class="payment-section">
-                    <h2>Informations de livraison</h2>
-                    <form class="checkout-form" onsubmit="processPayment(event)">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="checkout-nom">Nom *</label>
-                                <input type="text" id="checkout-nom" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="checkout-prenom">Prénom *</label>
-                                <input type="text" id="checkout-prenom" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="checkout-email">Email *</label>
-                            <input type="email" id="checkout-email" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="checkout-telephone">Téléphone *</label>
-                            <input type="tel" id="checkout-telephone" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="checkout-adresse">Adresse complète *</label>
-                            <textarea id="checkout-adresse" rows="3" required></textarea>
-                        </div>
-
-                        <h2 style="margin-top: 40px; color: #d4af37;">Mode de paiement</h2>
-                        
-                        <div class="payment-methods">
-                            <label class="payment-method">
-                                <input type="radio" name="payment" value="card" checked>
-                                <div class="payment-option">
-                                    <strong>Carte bancaire</strong>
-                                    <p>Visa, Mastercard, American Express</p>
-                                </div>
-                            </label>
-
-                            <label class="payment-method">
-                                <input type="radio" name="payment" value="paypal">
-                                <div class="payment-option">
-                                    <strong>PayPal</strong>
-                                    <p>Paiement sécurisé via PayPal</p>
-                                </div>
-                            </label>
-
-                            <label class="payment-method">
-                                <input type="radio" name="payment" value="transfer">
-                                <div class="payment-option">
-                                    <strong>Virement bancaire</strong>
-                                    <p>Délai de traitement 2-3 jours</p>
-                                </div>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="checkout-btn" style="margin-top: 30px;">
-                            Confirmer et payer
-                        </button>
-
-                        <button type="button" class="back-btn" onclick="showPage('panier')">
-                            Retour au panier
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- À Propos Page -->
     <div id="a-propos" class="page">
-        <div class="placeholder-page">
-            <h1>À Propos</h1>
-            <p>Coming Soon</p>
-        </div>
+        <div class="placeholder-page"><h1>À Propos</h1><p>Coming Soon</p></div>
     </div>
 
-    <!-- Contact Page -->
     <div id="contact" class="page">
-        <div class="placeholder-page">
-            <h1>Contact</h1>
-            <div class="contact-form-container">
-                <form class="contact-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="nom">Nom *</label>
-                            <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="prenom">Prénom *</label>
-                            <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" placeholder="votre@email.com" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="telephone">Téléphone</label>
-                            <input type="tel" id="telephone" name="telephone" placeholder="+33 6 00 00 00 00">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="adresse">Adresse</label>
-                        <input type="text" id="adresse" name="adresse" placeholder="Votre adresse complète">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message *</label>
-                        <textarea id="message" name="message" placeholder="Parlez-nous de votre projet..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Envoyer le message</button>
-                </form>
-            </div>
-        </div>
+        <div class="placeholder-page"><h1>Contact</h1><p>Coming Soon</p></div>
     </div>
 
     <script>
         let cart = [];
 
         function addToCart(name, image, price) {
-            const item = { name, image, price, id: Date.now() };
-            cart.push(item);
+            cart.push({ name, image, price, id: Date.now() });
             updateCart();
-            alert(`"${name}" a été ajouté au panier !`);
+            alert('"' + name + '" ajouté au panier !');
         }
 
         function removeFromCart(id) {
@@ -1081,120 +171,38 @@
         }
 
         function updateCart() {
-            const cartEmpty = document.getElementById('cart-empty');
-            const cartItems = document.getElementById('cart-items');
-            const cartSummary = document.getElementById('cart-summary');
+            const empty = document.getElementById('cart-empty');
+            const items = document.getElementById('cart-items');
+            const summary = document.getElementById('cart-summary');
             
             if (cart.length === 0) {
-                cartEmpty.style.display = 'block';
-                cartItems.innerHTML = '';
-                cartItems.classList.remove('has-items');
-                cartSummary.style.display = 'none';
+                empty.style.display = 'block';
+                items.innerHTML = '';
+                items.classList.remove('has-items');
+                summary.style.display = 'none';
             } else {
-                cartEmpty.style.display = 'none';
-                cartItems.classList.add('has-items');
-                cartSummary.style.display = 'block';
+                empty.style.display = 'none';
+                items.classList.add('has-items');
+                summary.style.display = 'block';
                 
                 let total = 0;
-                cartItems.innerHTML = cart.map(item => {
+                items.innerHTML = cart.map(item => {
                     total += item.price;
-                    return `
-                        <div class="cart-item">
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-                            <div class="cart-item-details">
-                                <h3>${item.name}</h3>
-                                <p>Œuvre digitale haute définition</p>
-                                <p>Format personnalisable pour impression</p>
-                            </div>
-                            <div class="cart-item-actions">
-                                <div class="cart-item-price">${item.price}€</div>
-                                <button class="remove-btn" onclick="removeFromCart(${item.id})">Retirer</button>
-                            </div>
-                        </div>
-                    `;
+                    return '<div class="cart-item"><img src="' + item.image + '" class="cart-item-image"><div class="cart-item-details"><h3>' + item.name + '</h3><p>Œuvre digitale HD</p></div><div class="cart-item-actions"><div class="cart-item-price">' + item.price + '€</div><button class="remove-btn" onclick="removeFromCart(' + item.id + ')">Retirer</button></div></div>';
                 }).join('');
                 
                 document.getElementById('cart-total-amount').textContent = total;
             }
         }
 
-        function showCheckout() {
-            if (cart.length === 0) {
-                alert('Votre panier est vide');
-                return;
-            }
-            
-            // Update checkout summary
-            const checkoutItems = document.getElementById('checkout-items');
-            const checkoutTotal = document.getElementById('checkout-total-amount');
-            
-            let total = 0;
-            checkoutItems.innerHTML = cart.map(item => {
-                total += item.price;
-                return `
-                    <div class="checkout-item">
-                        <span>${item.name}</span>
-                        <span>${item.price}€</span>
-                    </div>
-                `;
-            }).join('');
-            
-            checkoutTotal.textContent = total;
-            
-            // Show checkout page
-            showPage('checkout');
-        }
-
-        function processPayment(event) {
-            event.preventDefault();
-            
-            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            
-            let message = `Commande confirmée!\n\n`;
-            message += `Total: ${total}€\n`;
-            message += `Mode de paiement: `;
-            
-            if (paymentMethod === 'card') {
-                message += 'Carte bancaire\n\n';
-                message += 'Vous allez être redirigé vers notre page de paiement sécurisé.';
-            } else if (paymentMethod === 'paypal') {
-                message += 'PayPal\n\n';
-                message += 'Vous allez être redirigé vers PayPal.';
-            } else {
-                message += 'Virement bancaire\n\n';
-                message += 'Vous recevrez les coordonnées bancaires par email.';
-            }
-            
-            alert(message);
-            
-            // Clear cart and redirect
-            cart = [];
-            updateCart();
-            showPage('accueil');
-        }
-
         function showPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            
-            // Remove active state from all buttons
-            const buttons = document.querySelectorAll('.nav-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // Show selected page
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-            
-            // Add active state to clicked button if event exists
-            if (event && event.target) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const page = document.getElementById(pageId);
+            if (page) page.classList.add('active');
+            if (event && event.target && event.target.classList.contains('nav-btn')) {
                 event.target.classList.add('active');
             }
-            
-            // Scroll to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
