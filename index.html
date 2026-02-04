@@ -378,6 +378,181 @@
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
+        .cart-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .cart-items {
+            display: none;
+        }
+
+        .cart-items.has-items {
+            display: block;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 200px 1fr auto;
+            gap: 30px;
+            padding: 30px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 15px;
+            align-items: center;
+        }
+
+        .cart-item-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cart-item-details h3 {
+            color: #d4af37;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-details p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+        }
+
+        .cart-item-price {
+            font-size: 1.8em;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .remove-btn {
+            background: transparent;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .remove-btn:hover {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .cart-summary {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            margin-top: 40px;
+        }
+
+        .cart-summary h2 {
+            color: #d4af37;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .cart-total {
+            font-size: 2.5em;
+            color: #d4af37;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%);
+        }
+
+        .add-to-cart-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            z-index: 10;
+        }
+
+        .gallery-item {
+            position: relative;
+        }
+
+        .gallery-item:hover .add-to-cart-btn {
+            opacity: 1;
+        }
+
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%);
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #d4af37;
+            color: #000;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -479,6 +654,22 @@
                 padding: 16px;
                 letter-spacing: 2px;
             }
+
+            .cart-item {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .cart-item-image {
+                width: 100%;
+                height: auto;
+                margin: 0 auto;
+            }
+
+            .cart-item-actions {
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -491,6 +682,7 @@
             <button class="nav-btn" onclick="showPage('icons')">Icons</button>
             <button class="nav-btn" onclick="showPage('boheme')">Bohème</button>
             <button class="nav-btn" onclick="showPage('enfant')">Enfant</button>
+            <button class="nav-btn" onclick="showPage('panier')">Panier</button>
             <button class="nav-btn" onclick="showPage('a-propos')">À Propos</button>
         </nav>
     </header>
@@ -503,7 +695,7 @@
     <div id="accueil" class="page active">
         <div class="hero">
             <div class="main-image-container">
-                <img src="gorilla.png" alt="Massel Signature">
+                <img src="./gorilla.png" alt="Massel Signature" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/gorilla.png'">
                 <div class="tagline">Sophistication. Power. Signature.</div>
             </div>
         </div>
@@ -524,19 +716,24 @@
             <h1 class="gallery-title">Royale Strip Collection</h1>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="gorilla.png" alt="Gorilla Poker">
+                    <img src="./gorilla.png" alt="Gorilla Poker" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/gorilla.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Gorilla Poker', './gorilla.png', 149); event.stopPropagation();">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="lioness.png" alt="Lioness">
+                    <img src="./lioness.png" alt="Lioness" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/lioness.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Lioness Noir', './lioness.png', 149); event.stopPropagation();">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="buffalo.png" alt="Buffalo">
+                    <img src="./buffalo.png" alt="Buffalo" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/buffalo.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Buffalo Power', './buffalo.png', 149); event.stopPropagation();">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="wolf.png" alt="Wolf">
+                    <img src="./wolf.png" alt="Wolf" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/wolf.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Wolf Intensity', './wolf.png', 149); event.stopPropagation();">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="lion.png" alt="Lion Cub">
+                    <img src="./lion.png" alt="Lion Cub" onerror="this.src='https://raw.githubusercontent.com/MasselSignature/masselsignature/main/lion.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Lion Legacy', './lion.png', 149); event.stopPropagation();">Ajouter - 149€</button>
                 </div>
             </div>
         </div>
@@ -563,6 +760,31 @@
         <div class="placeholder-page">
             <h1>Enfant</h1>
             <p>Coming Soon</p>
+        </div>
+    </div>
+
+    <!-- Panier Page -->
+    <div id="panier" class="page">
+        <div class="placeholder-page">
+            <h1>Panier</h1>
+            <div class="cart-container">
+                <div id="cart-empty" class="cart-empty">
+                    <p style="font-size: 1.2em; margin-bottom: 20px;">Votre panier est vide</p>
+                    <button class="nav-btn" onclick="showPage('royale-strip')" style="display: inline-block; margin-top: 20px;">Découvrir nos œuvres</button>
+                </div>
+                
+                <div id="cart-items" class="cart-items">
+                    <!-- Cart items will be inserted here by JavaScript -->
+                </div>
+                
+                <div id="cart-summary" class="cart-summary" style="display: none;">
+                    <h2>Résumé</h2>
+                    <div class="cart-total">
+                        Total: <span id="cart-total-amount">0</span>€
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()">Procéder au paiement</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -621,6 +843,66 @@
     </div>
 
     <script>
+        let cart = [];
+
+        function addToCart(name, image, price) {
+            const item = { name, image, price, id: Date.now() };
+            cart.push(item);
+            updateCart();
+            alert(`"${name}" a été ajouté au panier !`);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartEmpty = document.getElementById('cart-empty');
+            const cartItems = document.getElementById('cart-items');
+            const cartSummary = document.getElementById('cart-summary');
+            
+            if (cart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartItems.innerHTML = '';
+                cartItems.classList.remove('has-items');
+                cartSummary.style.display = 'none';
+            } else {
+                cartEmpty.style.display = 'none';
+                cartItems.classList.add('has-items');
+                cartSummary.style.display = 'block';
+                
+                let total = 0;
+                cartItems.innerHTML = cart.map(item => {
+                    total += item.price;
+                    return `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                            <div class="cart-item-details">
+                                <h3>${item.name}</h3>
+                                <p>Œuvre digitale haute définition</p>
+                                <p>Format personnalisable pour impression</p>
+                            </div>
+                            <div class="cart-item-actions">
+                                <div class="cart-item-price">${item.price}€</div>
+                                <button class="remove-btn" onclick="removeFromCart(${item.id})">Retirer</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                document.getElementById('cart-total-amount').textContent = total;
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide');
+                return;
+            }
+            alert('Fonction de paiement à venir. Total: ' + cart.reduce((sum, item) => sum + item.price, 0) + '€');
+        }
+
         function showPage(pageId) {
             // Hide all pages
             const pages = document.querySelectorAll('.page');
