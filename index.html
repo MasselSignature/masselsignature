@@ -553,6 +553,133 @@
             font-weight: bold;
         }
 
+        .checkout-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .checkout-summary {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            height: fit-content;
+        }
+
+        .checkout-summary h2 {
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .checkout-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .checkout-item:last-child {
+            border-bottom: none;
+        }
+
+        .checkout-total {
+            font-size: 2em;
+            color: #d4af37;
+            font-weight: bold;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .payment-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .payment-section h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+
+        .checkout-form {
+            margin-top: 20px;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #d4af37;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .payment-method input[type="radio"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .payment-option {
+            flex: 1;
+        }
+
+        .payment-option strong {
+            color: #d4af37;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .payment-option p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+        }
+
+        .back-btn {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            color: #d4af37;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            margin-top: 15px;
+        }
+
+        .back-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -670,6 +797,19 @@
             .cart-item-actions {
                 align-items: center;
             }
+
+            .checkout-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .payment-section {
+                padding: 30px 20px;
+            }
+
+            .checkout-summary {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -782,7 +922,90 @@
                     <div class="cart-total">
                         Total: <span id="cart-total-amount">0</span>€
                     </div>
-                    <button class="checkout-btn" onclick="checkout()">Procéder au paiement</button>
+                    <button class="checkout-btn" onclick="showCheckout()">Procéder au paiement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Page -->
+    <div id="checkout" class="page">
+        <div class="placeholder-page">
+            <h1>Paiement</h1>
+            <div class="checkout-container">
+                <div class="checkout-summary">
+                    <h2>Votre commande</h2>
+                    <div id="checkout-items"></div>
+                    <div class="checkout-total">
+                        Total à payer: <span id="checkout-total-amount">0</span>€
+                    </div>
+                </div>
+
+                <div class="payment-section">
+                    <h2>Informations de livraison</h2>
+                    <form class="checkout-form" onsubmit="processPayment(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="checkout-nom">Nom *</label>
+                                <input type="text" id="checkout-nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-prenom">Prénom *</label>
+                                <input type="text" id="checkout-prenom" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkout-email">Email *</label>
+                            <input type="email" id="checkout-email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkout-telephone">Téléphone *</label>
+                            <input type="tel" id="checkout-telephone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkout-adresse">Adresse complète *</label>
+                            <textarea id="checkout-adresse" rows="3" required></textarea>
+                        </div>
+
+                        <h2 style="margin-top: 40px; color: #d4af37;">Mode de paiement</h2>
+                        
+                        <div class="payment-methods">
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="card" checked>
+                                <div class="payment-option">
+                                    <strong>Carte bancaire</strong>
+                                    <p>Visa, Mastercard, American Express</p>
+                                </div>
+                            </label>
+
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="paypal">
+                                <div class="payment-option">
+                                    <strong>PayPal</strong>
+                                    <p>Paiement sécurisé via PayPal</p>
+                                </div>
+                            </label>
+
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="transfer">
+                                <div class="payment-option">
+                                    <strong>Virement bancaire</strong>
+                                    <p>Délai de traitement 2-3 jours</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="checkout-btn" style="margin-top: 30px;">
+                            Confirmer et payer
+                        </button>
+
+                        <button type="button" class="back-btn" onclick="showPage('panier')">
+                            Retour au panier
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -895,12 +1118,60 @@
             }
         }
 
-        function checkout() {
+        function showCheckout() {
             if (cart.length === 0) {
                 alert('Votre panier est vide');
                 return;
             }
-            alert('Fonction de paiement à venir. Total: ' + cart.reduce((sum, item) => sum + item.price, 0) + '€');
+            
+            // Update checkout summary
+            const checkoutItems = document.getElementById('checkout-items');
+            const checkoutTotal = document.getElementById('checkout-total-amount');
+            
+            let total = 0;
+            checkoutItems.innerHTML = cart.map(item => {
+                total += item.price;
+                return `
+                    <div class="checkout-item">
+                        <span>${item.name}</span>
+                        <span>${item.price}€</span>
+                    </div>
+                `;
+            }).join('');
+            
+            checkoutTotal.textContent = total;
+            
+            // Show checkout page
+            showPage('checkout');
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            let message = `Commande confirmée!\n\n`;
+            message += `Total: ${total}€\n`;
+            message += `Mode de paiement: `;
+            
+            if (paymentMethod === 'card') {
+                message += 'Carte bancaire\n\n';
+                message += 'Vous allez être redirigé vers notre page de paiement sécurisé.';
+            } else if (paymentMethod === 'paypal') {
+                message += 'PayPal\n\n';
+                message += 'Vous allez être redirigé vers PayPal.';
+            } else {
+                message += 'Virement bancaire\n\n';
+                message += 'Vous recevrez les coordonnées bancaires par email.';
+            }
+            
+            alert(message);
+            
+            // Clear cart and redirect
+            cart = [];
+            updateCart();
+            showPage('accueil');
         }
 
         function showPage(pageId) {
@@ -913,10 +1184,15 @@
             buttons.forEach(btn => btn.classList.remove('active'));
             
             // Show selected page
-            document.getElementById(pageId).classList.add('active');
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
             
-            // Add active state to clicked button
-            event.target.classList.add('active');
+            // Add active state to clicked button if event exists
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
             
             // Scroll to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
