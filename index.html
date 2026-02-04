@@ -3,262 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Massel Signature — affiches et art digital haut de gamme. Sophistication. Power. Signature.">
     <title>Massel Signature</title>
     <style>
+        :root {
+            --header-height: 120px; /* update if header size changes */
+            --gold: #d4af37;
+            --gold-dark: #b8941f;
+            --bg: #000;
+            --muted-border: rgba(255,255,255,0.08);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Georgia, serif; background: #000; color: #fff; overflow-x: hidden; }
-        .header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .logo { text-align: center; padding: 20px; font-size: 2.5em; font-weight: bold; letter-spacing: 3px; color: #d4af37; }
-        .nav { display: flex; justify-content: center; gap: 0; padding: 15px 0; flex-wrap: wrap; }
-        .nav-btn { background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); color: #d4af37; border: 1px solid rgba(212,175,55,0.3); padding: 15px 35px; font-size: 1.1em; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; transition: all 0.3s; }
-        .nav-btn:hover { background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); border-color: #d4af37; color: #fff; transform: translateY(-2px); }
-        .nav-btn.active { background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; }
-        .page { display: none; margin-top: 200px; min-height: calc(100vh - 200px); padding: 40px 20px; }
-        .page.active { display: block; animation: fadeIn 0.6s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        html, body { height: 100%; }
+        body {
+            font-family: Georgia, serif;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+            padding-top: var(--header-height); /* reserve space for fixed header */
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .logo {
+            text-align: center;
+            padding: 12px 20px 0;
+            font-size: 2.1rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: var(--gold);
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.25rem;
+            padding: 10px 12px 16px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            color: var(--gold);
+            border: 1px solid rgba(212,175,55,0.3);
+            padding: 12px 26px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+        }
+        .nav-btn:hover { background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); border-color: var(--gold); color: #fff; transform: translateY(-2px); }
+        .nav-btn.active { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; border-color: var(--gold); }
+        .nav-btn[aria-current="true"] { outline: 2px solid rgba(212,175,55,0.12); }
+
+        /* Pages */
+        main { display: block; }
+        .page { display: none; padding: 40px 20px; min-height: calc(100vh - var(--header-height)); }
+        .page.active { display: block; animation: fadeIn 0.45s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hero */
         .main-image-container { max-width: 900px; margin: 0 auto; }
-        .main-image-container img { width: 100%; border-radius: 10px; box-shadow: 0 20px 60px rgba(212,175,55,0.2); transform: scaleX(-1); }
-        .tagline { text-align: center; margin-top: 40px; font-size: 1.8em; color: #d4af37; letter-spacing: 3px; text-transform: uppercase; }
-        .manifesto { max-width: 900px; margin: 60px auto 0; padding: 0 20px; text-align: center; line-height: 2; font-size: 1.15em; }
-        .manifesto p { margin-bottom: 25px; }
-        .manifesto p:first-child, .manifesto p:last-child { color: #d4af37; font-weight: 600; }
-        .gallery { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
-        .gallery-title { text-align: center; font-size: 3em; color: #d4af37; margin-bottom: 60px; text-transform: uppercase; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .gallery-item { position: relative; border-radius: 15px; box-shadow: 0 10px 40px rgba(212,175,55,0.2); padding-bottom: 80px; background: #000; transition: all 0.4s; overflow: hidden; }
-        .gallery-item:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(212,175,55,0.4); }
-        .gallery-item img { width: 100%; height: auto; border-radius: 15px 15px 0 0; display: block; }
-        .add-to-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; transition: all 0.3s; white-space: nowrap; }
-        .add-to-cart-btn:hover { background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%); transform: translateX(-50%) translateY(-5px); }
+        .main-image-container img { width: 100%; border-radius: 10px; box-shadow: 0 20px 60px rgba(212,175,55,0.12); transform: scaleX(-1); display: block; }
+        .tagline { text-align: center; margin-top: 20px; font-size: 1.35rem; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
+
+        /* Manifesto */
+        .manifesto { max-width: 900px; margin: 40px auto 0; padding: 0 20px; text-align: center; line-height: 1.9; font-size: 1.05rem; }
+        .manifesto p { margin-bottom: 18px; }
+        .manifesto p:first-child, .manifesto p:last-child { color: var(--gold); font-weight: 600; }
+
+        /* Gallery */
+        .gallery { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .gallery-title { text-align: center; font-size: 2.4rem; color: var(--gold); margin: 30px 0 40px; text-transform: uppercase; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+        .gallery-item { position: relative; border-radius: 12px; box-shadow: 0 10px 40px rgba(212,175,55,0.12); padding-bottom: 80px; background: #000; transition: all 0.25s; overflow: hidden; }
+        .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 18px 60px rgba(212,175,55,0.18); }
+        .gallery-item img { width: 100%; height: auto; border-radius: 12px 12px 0 0; display: block; object-fit: cover; }
+
+        .add-to-cart-btn {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #000;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .add-to-cart-btn:hover { background: linear-gradient(135deg, #f0c24a 0%, var(--gold) 100%); transform: translateX(-50%) translateY(-4px); }
+
+        /* Floating contact */
         .contact-footer { position: fixed; bottom: 30px; right: 30px; z-index: 999; }
-        .contact-footer-btn { background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: 2px solid #d4af37; padding: 18px 40px; font-size: 1.2em; cursor: pointer; border-radius: 50px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; font-family: Georgia, serif; }
-        .cart-container { max-width: 1200px; margin: 40px auto; padding: 20px; }
-        .cart-empty { text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.02); border-radius: 15px; }
-        .cart-items { display: none; }
-        .cart-items.has-items { display: block; }
-        .cart-item { display: grid; grid-template-columns: 200px 1fr auto; gap: 30px; padding: 30px; margin-bottom: 20px; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.15); border-radius: 15px; align-items: center; }
-        .cart-item-image { width: 200px; height: 200px; object-fit: cover; border-radius: 10px; }
-        .cart-item-details h3 { color: #d4af37; font-size: 1.5em; margin-bottom: 10px; }
-        .cart-item-price { font-size: 1.8em; color: #d4af37; font-weight: bold; }
-        .remove-btn { background: transparent; color: #ff4444; border: 1px solid #ff4444; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: Georgia, serif; }
-        .remove-btn:hover { background: #ff4444; color: #fff; }
-        .cart-summary { background: linear-gradient(135deg, rgba(26,26,26,0.6) 0%, rgba(10,10,10,0.8) 100%); padding: 40px; border-radius: 15px; border: 2px solid rgba(212,175,55,0.2); margin-top: 40px; }
-        .cart-summary h2 { color: #d4af37; font-size: 2em; margin-bottom: 20px; }
-        .cart-total { font-size: 2.5em; color: #d4af37; font-weight: bold; margin: 20px 0; }
-        .checkout-btn { width: 100%; padding: 20px; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; border-radius: 10px; font-size: 1.3em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 20px; }
-        .placeholder-page { max-width: 1200px; margin: 0 auto; text-align: center; padding: 100px 20px; }
-        .placeholder-page h1 { font-size: 3.5em; color: #d4af37; margin-bottom: 30px; }
+        .contact-footer-btn { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; border: 2px solid var(--gold); padding: 14px 28px; font-size: 1rem; cursor: pointer; border-radius: 50px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; font-family: Georgia, serif; }
+
+        /* Cart */
+        .cart-container { max-width: 1200px; margin: 20px auto; padding: 10px; }
+        .cart-empty { text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.02); border-radius: 12px; }
+        .cart-items { display: block; }
+        .cart-item { display: grid; grid-template-columns: 140px 1fr auto; gap: 18px; padding: 16px; margin-bottom: 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.12); border-radius: 12px; align-items: center; }
+        .cart-item-image { width: 140px; height: 140px; object-fit: cover; border-radius: 8px; display: block; }
+        .cart-item-details h3 { color: var(--gold); font-size: 1.1rem; margin-bottom: 6px; }
+        .cart-item-price { font-size: 1.1rem; color: var(--gold); font-weight: 700; }
+        .remove-btn { background: transparent; color: #ff6b6b; border: 1px solid #ff6b6b; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-family: Georgia, serif; }
+        .remove-btn:hover { background: #ff6b6b; color: #fff; }
+
+        .cart-summary { background: linear-gradient(135deg, rgba(26,26,26,0.6) 0%, rgba(10,10,10,0.8) 100%); padding: 24px; border-radius: 12px; border: 2px solid rgba(212,175,55,0.12); margin-top: 22px; }
+        .cart-summary h2 { color: var(--gold); font-size: 1.25rem; margin-bottom: 10px; }
+        .cart-total { font-size: 1.6rem; color: var(--gold); font-weight: bold; margin: 10px 0; }
+        .checkout-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 8px; }
+
+        .placeholder-page { max-width: 1200px; margin: 0 auto; text-align: center; padding: 40px 20px; }
+        .placeholder-page h1 { font-size: 2.4rem; color: var(--gold); margin-bottom: 14px; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 40px;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            color: #fff;
+            border: 1px solid rgba(212,175,55,0.16);
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            will-change: opacity, transform;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+
         @media (max-width: 768px) {
-            .logo { font-size: 1.8em; }
-            .nav-btn { padding: 12px 20px; font-size: 0.9em; }
-            .page { margin-top: 280px; }
-            .gallery-grid { grid-template-columns: 1fr; }
+            :root { --header-height: 160px; }
+            .logo { font-size: 1.25rem; padding-top: 8px; }
+            .nav-btn { padding: 10px 14px; font-size: 0.85rem; }
+            .page { padding: 20px 16px; }
+            .gallery-grid { grid-template-columns: 1fr; gap: 18px; }
             .cart-item { grid-template-columns: 1fr; text-align: center; }
-            .cart-item-image { width: 100%; height: auto; }
+            .cart-item-image { width: 100%; height: auto; margin: 0 auto; }
+            .contact-footer { right: 14px; left: auto; bottom: 16px; }
         }
     </style>
 </head>
 <body>
-    <header class="header">
+    <header class="header" role="banner">
         <div class="logo">MASSEL SIGNATURE</div>
-        <nav class="nav">
-            <button class="nav-btn active" onclick="showPage('accueil')">Accueil</button>
-            <button class="nav-btn" onclick="showPage('royale-strip')">Royale Strip</button>
-            <button class="nav-btn" onclick="showPage('icons')">Icons</button>
-            <button class="nav-btn" onclick="showPage('boheme')">Bohème</button>
-            <button class="nav-btn" onclick="showPage('enfant')">Enfant</button>
-            <button class="nav-btn" onclick="showPage('panier')">Panier</button>
-            <button class="nav-btn" onclick="showPage('a-propos')">À Propos</button>
+        <nav class="nav" role="navigation" aria-label="Principal">
+            <button class="nav-btn active" type="button" data-target="accueil" aria-current="true">Accueil</button>
+            <button class="nav-btn" type="button" data-target="royale-strip">Royale Strip</button>
+            <button class="nav-btn" type="button" data-target="icons">Icons</button>
+            <button class="nav-btn" type="button" data-target="boheme">Bohème</button>
+            <button class="nav-btn" type="button" data-target="enfant">Enfant</button>
+            <button class="nav-btn" type="button" data-target="panier">Panier</button>
+            <button class="nav-btn" type="button" data-target="a-propos">À Propos</button>
         </nav>
     </header>
 
     <div class="contact-footer">
-        <button class="contact-footer-btn" onclick="showPage('contact')">Contact</button>
+        <button class="contact-footer-btn" type="button" data-target="contact">Contact</button>
     </div>
 
-    <div id="accueil" class="page active">
-        <div class="main-image-container">
-            <img src="./gorilla.png" alt="Massel Signature" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/gorilla.png'">
-            <div class="tagline">Sophistication. Power. Signature.</div>
-        </div>
-        <div class="manifesto">
-            <p>Chaque création est une pièce unique, conçue pour habiller vos espaces.</p>
-            <p>Chez Massel Signature, l'art digital devient une signature.</p>
-            <p>Chaque affiche est pensée comme une œuvre à part entière, mêlant caractère, émotion et esthétisme contemporain.</p>
-            <p>Mes créations transforment vos murs en véritables déclarations visuelles.</p>
-            <p>Massel Signature, c'est l'art comme empreinte personnelle.</p>
-        </div>
-    </div>
+    <main>
+        <section id="accueil" class="page active" aria-labelledby="accueil-heading">
+            <div class="main-image-container">
+                <img src="./gorilla.png" alt="Oeuvre Massel Signature — Gorilla" loading="lazy" decoding="async"
+                     onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/gorilla.png'">
+                <div class="tagline">Sophistication. Power. Signature.</div>
+            </div>
+            <div class="manifesto" id="accueil-heading">
+                <p>Chaque création est une pièce unique, conçue pour habiller vos espaces.</p>
+                <p>Chez Massel Signature, l'art digital devient une signature.</p>
+                <p>Chaque affiche est pensée comme une œuvre à part entière, mêlant caractère, émotion et esthétisme contemporain.</p>
+                <p>Mes créations transforment vos murs en véritables déclarations visuelles.</p>
+                <p>Massel Signature, c'est l'art comme empreinte personnelle.</p>
+            </div>
+        </section>
 
-    <div id="royale-strip" class="page">
-        <div class="gallery">
-            <h1 class="gallery-title">Royale Strip Collection</h1>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="./gorilla.png" alt="Gorilla" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/gorilla.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Gorilla Poker', './gorilla.png', 149)">Ajouter - 149€</button>
-                </div>
-                <div class="gallery-item">
-                    <img src="./lioness.png" alt="Lioness" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/lioness.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Lioness Noir', './lioness.png', 149)">Ajouter - 149€</button>
-                </div>
-                <div class="gallery-item">
-                    <img src="./buffalo.png" alt="Buffalo" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/buffalo.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Buffalo Power', './buffalo.png', 149)">Ajouter - 149€</button>
-                </div>
-                <div class="gallery-item">
-                    <img src="./wolf.png" alt="Wolf" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/wolf.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Wolf Intensity', './wolf.png', 149)">Ajouter - 149€</button>
-                </div>
-                <div class="gallery-item">
-                    <img src="./lion.png" alt="Lion" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/lion.png'">
-                    <button class="add-to-cart-btn" onclick="addToCart('Lion Legacy', './lion.png', 149)">Ajouter - 149€</button>
+        <section id="royale-strip" class="page" aria-labelledby="royale-strip-heading">
+            <div class="gallery">
+                <h1 id="royale-strip-heading" class="gallery-title">Royale Strip Collection</h1>
+                <div class="gallery-grid" aria-live="polite">
+                    <div class="gallery-item">
+                        <img src="./gorilla.png" alt="Gorilla — affiche" loading="lazy" decoding="async"
+                             onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/gorilla.png'">
+                        <button class="add-to-cart-btn" type="button" data-name="Gorilla Poker" data-image="./gorilla.png" data-price="149">Ajouter - 149€</button>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./lioness.png" alt="Lioness — affiche" loading="lazy" decoding="async"
+                             onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/lioness.png'">
+                        <button class="add-to-cart-btn" type="button" data-name="Lioness Noir" data-image="./lioness.png" data-price="149">Ajouter - 149€</button>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./buffalo.png" alt="Buffalo — affiche" loading="lazy" decoding="async"
+                             onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/buffalo.png'">
+                        <button class="add-to-cart-btn" type="button" data-name="Buffalo Power" data-image="./buffalo.png" data-price="149">Ajouter - 149€</button>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./wolf.png" alt="Wolf — affiche" loading="lazy" decoding="async"
+                             onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/wolf.png'">
+                        <button class="add-to-cart-btn" type="button" data-name="Wolf Intensity" data-image="./wolf.png" data-price="149">Ajouter - 149€</button>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./lion.png" alt="Lion — affiche" loading="lazy" decoding="async"
+                             onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/lion.png'">
+                        <button class="add-to-cart-btn" type="button" data-name="Lion Legacy" data-image="./lion.png" data-price="149">Ajouter - 149€</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div id="icons" class="page">
-        <div class="placeholder-page"><h1>Icons</h1><p>Coming Soon</p></div>
-    </div>
+        <section id="icons" class="page">
+            <div class="placeholder-page"><h1>Icons</h1><p>Coming Soon</p></div>
+        </section>
 
-    <div id="boheme" class="page">
-        <div class="placeholder-page"><h1>Bohème</h1><p>Coming Soon</p></div>
-    </div>
+        <section id="boheme" class="page">
+            <div class="placeholder-page"><h1>Bohème</h1><p>Coming Soon</p></div>
+        </section>
 
-    <div id="enfant" class="page">
-        <div class="placeholder-page"><h1>Enfant</h1><p>Coming Soon</p></div>
-    </div>
+        <section id="enfant" class="page">
+            <div class="placeholder-page"><h1>Enfant</h1><p>Coming Soon</p></div>
+        </section>
 
-    <div id="panier" class="page">
-        <div class="placeholder-page">
-            <h1>Panier</h1>
-            <div class="cart-container">
-                <div id="cart-empty" class="cart-empty">
-                    <p style="font-size: 1.2em; margin-bottom: 20px;">Votre panier est vide</p>
-                    <button class="nav-btn" onclick="showPage('royale-strip')">Découvrir nos œuvres</button>
-                </div>
-                <div id="cart-items" class="cart-items"></div>
-                <div id="cart-summary" class="cart-summary" style="display: none;">
-                    <h2>Résumé</h2>
-                    <div class="cart-total">Total: <span id="cart-total-amount">0</span>€</div>
-                    <button class="checkout-btn" onclick="goToCheckout()">Procéder au paiement</button>
+        <section id="panier" class="page" aria-labelledby="panier-heading">
+            <div class="placeholder-page">
+                <h1 id="panier-heading">Panier</h1>
+                <div class="cart-container">
+                    <div id="cart-empty" class="cart-empty" role="status" aria-live="polite">
+                        <p style="font-size: 1.1rem; margin-bottom: 14px;">Votre panier est vide</p>
+                        <button class="nav-btn" type="button" data-target="royale-strip">Découvrir nos œuvres</button>
+                    </div>
+                    <div id="cart-items" class="cart-items" aria-live="polite"></div>
+                    <div id="cart-summary" class="cart-summary" style="display: none;">
+                        <h2>Résumé</h2>
+                        <div class="cart-total">Total: <span id="cart-total-amount">0.00</span>€</div>
+                        <button class="checkout-btn" id="go-checkout" type="button">Procéder au paiement</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div id="a-propos" class="page">
-        <div class="placeholder-page"><h1>À Propos</h1><p>Coming Soon</p></div>
-    </div>
+        <section id="a-propos" class="page">
+            <div class="placeholder-page"><h1>À Propos</h1><p>Coming Soon</p></div>
+        </section>
 
-    <div id="contact" class="page">
-        <div class="placeholder-page"><h1>Contact</h1><p>Coming Soon</p></div>
-    </div>
+        <section id="contact" class="page">
+            <div class="placeholder-page"><h1>Contact</h1><p>Coming Soon</p></div>
+        </section>
 
-    <div id="checkout" class="page">
-        <div class="placeholder-page">
-            <h1>Paiement</h1>
-            <div style="max-width: 800px; margin: 40px auto; background: rgba(26,26,26,0.6); padding: 40px; border-radius: 15px; border: 2px solid rgba(212,175,55,0.2);">
-                <h2 style="color: #d4af37; margin-bottom: 30px;">Votre commande</h2>
-                <div id="checkout-items" style="margin-bottom: 30px;"></div>
-                <div style="font-size: 2em; color: #d4af37; font-weight: bold; padding-top: 20px; border-top: 2px solid rgba(212,175,55,0.3);">
-                    Total: <span id="checkout-total">0</span>€
+        <section id="checkout" class="page">
+            <div class="placeholder-page">
+                <h1>Paiement</h1>
+                <div style="max-width: 800px; margin: 20px auto; background: rgba(26,26,26,0.6); padding: 24px; border-radius: 12px; border: 2px solid rgba(212,175,55,0.12);">
+                    <h2 style="color: var(--gold); margin-bottom: 20px;">Votre commande</h2>
+                    <div id="checkout-items" style="margin-bottom: 18px;"></div>
+                    <div style="font-size: 1.2rem; color: var(--gold); font-weight: bold; padding-top: 12px; border-top: 1px solid rgba(212,175,55,0.08);">
+                        Total: <span id="checkout-total">0.00</span>€
+                    </div>
+
+                    <h2 style="color: var(--gold); margin: 20px 0 12px;">Mode de paiement</h2>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <label style="display: flex; align-items: center; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(212,175,55,0.08); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="payment" value="card" checked style="margin-right: 12px; width: 18px; height: 18px;">
+                            <div><strong style="color: var(--gold); font-size: 1rem;">Carte bancaire</strong><p style="color: rgba(255,255,255,0.6); margin-top: 4px;">Visa, Mastercard, Amex</p></div>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(212,175,55,0.08); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="payment" value="paypal" style="margin-right: 12px; width: 18px; height: 18px;">
+                            <div><strong style="color: var(--gold); font-size: 1rem;">PayPal</strong><p style="color: rgba(255,255,255,0.6); margin-top: 4px;">Paiement sécurisé</p></div>
+                        </label>
+                    </div>
+
+                    <button id="confirm-payment" type="button" style="width: 100%; padding: 12px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 18px;">Confirmer le paiement</button>
+
+                    <button id="back-to-cart" type="button" style="width: 100%; padding: 10px; background: transparent; color: var(--gold); border: 1px solid rgba(212,175,55,0.08); border-radius: 10px; font-size: 0.95rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 10px;">Retour au panier</button>
                 </div>
-                <h2 style="color: #d4af37; margin: 40px 0 20px;">Mode de paiement</h2>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <label style="display: flex; align-items: center; padding: 20px; background: rgba(0,0,0,0.4); border: 2px solid rgba(212,175,55,0.2); border-radius: 10px; cursor: pointer;">
-                        <input type="radio" name="payment" value="card" checked style="margin-right: 15px; width: 20px; height: 20px;">
-                        <div><strong style="color: #d4af37; font-size: 1.1em;">Carte bancaire</strong><p style="color: rgba(255,255,255,0.6); margin-top: 5px;">Visa, Mastercard, Amex</p></div>
-                    </label>
-                    <label style="display: flex; align-items: center; padding: 20px; background: rgba(0,0,0,0.4); border: 2px solid rgba(212,175,55,0.2); border-radius: 10px; cursor: pointer;">
-                        <input type="radio" name="payment" value="paypal" style="margin-right: 15px; width: 20px; height: 20px;">
-                        <div><strong style="color: #d4af37; font-size: 1.1em;">PayPal</strong><p style="color: rgba(255,255,255,0.6); margin-top: 5px;">Paiement sécurisé</p></div>
-                    </label>
-                </div>
-                <button onclick="processPayment()" style="width: 100%; padding: 20px; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; border-radius: 10px; font-size: 1.3em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 30px;">Confirmer le paiement</button>
-                <button onclick="showPage('panier')" style="width: 100%; padding: 15px; background: transparent; color: #d4af37; border: 2px solid rgba(212,175,55,0.4); border-radius: 10px; font-size: 1em; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 15px;">Retour au panier</button>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
+
+    <!-- Toast container (dynamically used) -->
+    <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
 
     <script>
-        let cart = [];
+        (function () {
+            // Cart stored as array of items: { id, name, image, price }
+            const STORAGE_KEY = 'ms_cart_v1';
+            let cart = [];
 
-        function addToCart(name, image, price) {
-            cart.push({ name, image, price, id: Date.now() });
-            updateCart();
-            alert('"' + name + '" ajouté au panier !');
-        }
+            // Utility: show a small transient toast message instead of blocking alert()
+            function showToast(message, duration = 2500) {
+                const root = document.getElementById('toast-root');
+                const t = document.createElement('div');
+                t.className = 'toast';
+                t.textContent = message;
+                root.appendChild(t);
+                // force reflow to enable transition
+                requestAnimationFrame(() => t.classList.add('show'));
+                setTimeout(() => {
+                    t.classList.remove('show');
+                    setTimeout(() => root.removeChild(t), 300);
+                }, duration);
+            }
 
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCart();
-        }
+            // Persist cart to localStorage
+            function saveCart() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+                } catch (e) {
+                    // ignore storage errors (e.g. private mode)
+                }
+            }
+            function loadCart() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw) cart = JSON.parse(raw);
+                } catch (e) {
+                    cart = [];
+                }
+            }
 
-        function updateCart() {
-            const empty = document.getElementById('cart-empty');
-            const items = document.getElementById('cart-items');
-            const summary = document.getElementById('cart-summary');
-            
-            if (cart.length === 0) {
-                empty.style.display = 'block';
-                items.innerHTML = '';
-                items.classList.remove('has-items');
-                summary.style.display = 'none';
-            } else {
-                empty.style.display = 'none';
-                items.classList.add('has-items');
-                summary.style.display = 'block';
-                
+            // Format price with two decimals
+            function fmtPrice(num) {
+                return Number(num).toFixed(2);
+            }
+
+            // Update cart UI
+            function updateCartUI() {
+                const empty = document.getElementById('cart-empty');
+                const items = document.getElementById('cart-items');
+                const summary = document.getElementById('cart-summary');
+                const totalSpan = document.getElementById('cart-total-amount');
+
+                if (!items || !empty || !summary) return;
+
+                if (cart.length === 0) {
+                    empty.style.display = 'block';
+                    items.innerHTML = '';
+                    summary.style.display = 'none';
+                } else {
+                    empty.style.display = 'none';
+                    summary.style.display = 'block';
+
+                    let total = 0;
+                    items.innerHTML = cart.map(item => {
+                        total += Number(item.price);
+                        // Use data-id for event handling
+                        return `
+                            <div class="cart-item" data-id="${item.id}">
+                                <img src="${escapeAttr(item.image)}" class="cart-item-image" alt="${escapeAttr(item.name)}" loading="lazy" decoding="async"
+                                    onerror="this.onerror=null;this.src='https://masselsignature.github.io/masselsignature/gorilla.png'">
+                                <div class="cart-item-details">
+                                    <h3>${escapeHtml(item.name)}</h3>
+                                    <p style="color: rgba(255,255,255,0.6); margin-top:6px;">Œuvre digitale HD</p>
+                                </div>
+                                <div style="text-align:right;">
+                                    <div class="cart-item-price">${fmtPrice(item.price)}€</div>
+                                    <div style="margin-top:8px;"><button class="remove-btn" type="button" data-remove-id="${item.id}">Retirer</button></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    totalSpan.textContent = fmtPrice(total);
+                }
+                saveCart();
+            }
+
+            // Basic escaping helpers for injection
+            function escapeHtml(s) {
+                return String(s).replace(/[&<>"']/g, function (m) {
+                    return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m];
+                });
+            }
+            function escapeAttr(s) {
+                return String(s).replace(/"/g, '&quot;');
+            }
+
+            // Add item to cart
+            function addToCart(name, image, price) {
+                const id = Date.now() + Math.floor(Math.random()*1000);
+                cart.push({ id, name, image, price: Number(price) });
+                updateCartUI();
+                showToast(`"${name}" ajouté au panier`);
+            }
+
+            // Remove from cart by id
+            function removeFromCart(id) {
+                const prevLen = cart.length;
+                cart = cart.filter(item => String(item.id) !== String(id));
+                if (cart.length < prevLen) {
+                    updateCartUI();
+                    showToast('Article retiré du panier');
+                }
+            }
+
+            // Show / switch page
+            function showPage(pageId, sourceButton) {
+                // hide all pages
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                // remove nav active state
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.removeAttribute('aria-current');
+                });
+
+                const page = document.getElementById(pageId);
+                if (page) page.classList.add('active');
+
+                // mark the corresponding nav button active (if any)
+                // If a button was passed use it; otherwise find nav button with data-target
+                let btn = sourceButton;
+                if (!btn) btn = document.querySelector('.nav-btn[data-target="'+pageId+'"]');
+
+                if (btn) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-current', 'true');
+                    // move focus for accessibility
+                    try { btn.focus(); } catch (e) {}
+                }
+
+                // scroll to top of page (accounting fixed header)
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Checkout flow: render items and switch to checkout section
+            function goToCheckout() {
+                if (cart.length === 0) {
+                    showToast('Votre panier est vide');
+                    return;
+                }
+                const checkoutItems = document.getElementById('checkout-items');
+                const checkoutTotal = document.getElementById('checkout-total');
+                if (!checkoutItems || !checkoutTotal) return;
+
                 let total = 0;
-                items.innerHTML = cart.map(item => {
-                    total += item.price;
-                    return '<div class="cart-item"><img src="' + item.image + '" class="cart-item-image"><div class="cart-item-details"><h3>' + item.name + '</h3><p>Œuvre digitale HD</p></div><div class="cart-item-actions"><div class="cart-item-price">' + item.price + '€</div><button class="remove-btn" onclick="removeFromCart(' + item.id + ')">Retirer</button></div></div>';
+                checkoutItems.innerHTML = cart.map(item => {
+                    total += Number(item.price);
+                    return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(212,175,55,0.06);"><span>${escapeHtml(item.name)}</span><span style="color: var(--gold);">${fmtPrice(item.price)}€</span></div>`;
                 }).join('');
-                
-                document.getElementById('cart-total-amount').textContent = total;
+                checkoutTotal.textContent = fmtPrice(total);
+                showPage('checkout');
             }
-        }
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            const page = document.getElementById(pageId);
-            if (page) page.classList.add('active');
-            if (event && event.target && event.target.classList.contains('nav-btn')) {
-                event.target.classList.add('active');
+            // Process payment (placeholder)
+            function processPayment() {
+                const payment = document.querySelector('input[name="payment"]:checked')?.value || 'card';
+                const total = cart.reduce((s, i) => s + Number(i.price), 0);
+                showToast(`Commande confirmée! Total: ${fmtPrice(total)}€ — Mode: ${payment === 'card' ? 'Carte bancaire' : 'PayPal'}`);
+
+                // clear cart
+                cart = [];
+                updateCartUI();
+
+                // redirect to accueil
+                showPage('accueil');
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
 
-        function goToCheckout() {
-            if (cart.length === 0) {
-                alert('Votre panier est vide');
-                return;
-            }
-            
-            let total = 0;
-            const checkoutItems = document.getElementById('checkout-items');
-            checkoutItems.innerHTML = cart.map(item => {
-                total += item.price;
-                return '<div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid rgba(212,175,55,0.1);"><span>' + item.name + '</span><span style="color: #d4af37;">' + item.price + '€</span></div>';
-            }).join('');
-            
-            document.getElementById('checkout-total').textContent = total;
-            showPage('checkout');
-        }
+            // Event wiring
+            document.addEventListener('DOMContentLoaded', function () {
+                // load state
+                loadCart();
+                updateCartUI();
 
-        function processPayment() {
-            const payment = document.querySelector('input[name="payment"]:checked').value;
-            const total = cart.reduce((s, i) => s + i.price, 0);
-            
-            alert('Commande confirmée!\nTotal: ' + total + '€\nMode: ' + (payment === 'card' ? 'Carte bancaire' : 'PayPal') + '\n\nIntégration paiement à venir.');
-            
-            cart = [];
-            updateCart();
-            showPage('accueil');
-        }
+                // Nav buttons
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        const target = btn.getAttribute('data-target');
+                        if (target) showPage(target, btn);
+                    });
+                });
+
+                // Contact floating button
+                document.querySelectorAll('[data-target="contact"]').forEach(b => {
+                    b.addEventListener('click', function (e) {
+                        showPage('contact', b);
+                    });
+                });
+
+                // Gallery add-to-cart buttons (event delegation)
+                document.addEventListener('click', function (e) {
+                    const addBtn = e.target.closest('.add-to-cart-btn');
+                    if (addBtn) {
+                        const name = addBtn.getAttribute('data-name') || 'Artwork';
+                        const image = addBtn.getAttribute('data-image') || './gorilla.png';
+                        const price = Number(addBtn.getAttribute('data-price')) || 0;
+                        addToCart(name, image, price);
+                    }
+
+                    // remove from cart
+                    const rem = e.target.closest('[data-remove-id]');
+                    if (rem) {
+                        const id = rem.getAttribute('data-remove-id');
+                        removeFromCart(id);
+                    }
+
+                    // "Découvrir nos œuvres" in empty cart
+                    const navBtn = e.target.closest('.nav-btn[data-target]');
+                    if (navBtn) {
+                        const t = navBtn.getAttribute('data-target');
+                        showPage(t, navBtn);
+                    }
+                });
+
+                // Go to checkout button
+                const goCheckout = document.getElementById('go-checkout');
+                if (goCheckout) goCheckout.addEventListener('click', goToCheckout);
+
+                // Confirm payment
+                const confirmPaymentBtn = document.getElementById('confirm-payment');
+                if (confirmPaymentBtn) confirmPaymentBtn.addEventListener('click', processPayment);
+
+                // Back to cart from checkout
+                const backToCart = document.getElementById('back-to-cart');
+                if (backToCart) backToCart.addEventListener('click', function () { showPage('panier'); });
+
+                // Accessibility: close toast on Escape (optional)
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') {
+                        // remove all toasts
+                        const root = document.getElementById('toast-root');
+                        root.querySelectorAll('.toast').forEach(t => t.parentElement && t.parentElement.removeChild(t));
+                    }
+                });
+
+            });
+
+            // Expose a small API for debugging in console (optional)
+            window._ms = {
+                addToCart,
+                removeFromCart,
+                getCart: () => cart.slice(),
+                showPage
+            };
+        })();
     </script>
 </body>
 </html>
