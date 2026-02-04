@@ -50,15 +50,15 @@
         <div class="container">
             <a class="navbar-brand" href="#">MASSEL SIGNATURE</a>
             <div class="d-flex align-items-center">
-                <button class="btn border-0 position-relative text-white" data-bs-toggle="modal" data-bs-target="#cartModal">
-                    <i class="bi bi-bag fs-4"></i>
+                <button class="btn border-0 position-relative text-white" data-bs-toggle="modal" data-bs-target="#cartModal" type="button" aria-label="Ouvrir le panier">
+                    <i class="bi bi-bag fs-4" aria-hidden="true"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge" id="cart-count">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <header class="hero">
+    <header class="hero" role="banner">
         <div class="container">
             <h1 class="display-1 mb-4">L'Essence du Style</h1>
             <p class="lead mb-5 text-uppercase" style="letter-spacing: 5px;">Collection Hiver 2026</p>
@@ -73,18 +73,18 @@
                     <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600" class="product-img w-100 mb-3" alt="Produit">
                     <h3 class="h5">Sac Signature Noir</h3>
                     <p class="text-muted mb-4">450,00 €</p>
-                    <button class="btn btn-luxury w-100" onclick="addToCart('price_YOUR_PRICE_ID', 'Sac Signature Noir', 450)">Ajouter au Panier</button>
+                    <button class="btn btn-luxury w-100" type="button" onclick="addToCart('price_YOUR_PRICE_ID', 'Sac Signature Noir', 450)">Ajouter au Panier</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-0 border-0">
                 <div class="modal-header bg-black text-white rounded-0">
                     <h5 class="modal-title">PANIER D'ACHAT</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
                 </div>
                 <div class="modal-body p-4" id="cart-items">
                     <p class="text-center text-muted">Votre panier est vide.</p>
@@ -94,19 +94,30 @@
                         <span>Total</span>
                         <span id="cart-total">0.00 €</span>
                     </div>
-                    <button class="btn btn-luxury w-100 py-3" onclick="redirectToCheckout()">Procéder au Paiement</button>
+                    <button class="btn btn-luxury w-100 py-3" type="button" onclick="redirectToCheckout()">Procéder au Paiement</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Keep cart simple
         let cart = [];
-        // 🚨 IMPORTANT: Replace this with your actual Stripe Publishable Key
-        const stripe = Stripe('pk_test_REPLACE_WITH_YOUR_KEY');
+
+        // Initialize Stripe only if available to avoid runtime error if blocked
+        let stripe = null;
+        if (typeof Stripe !== 'undefined') {
+            try {
+                stripe = Stripe('pk_test_REPLACE_WITH_YOUR_KEY');
+            } catch (e) {
+                // If initialization fails, keep stripe null and handle later
+                console.warn('Stripe init failed', e);
+                stripe = null;
+            }
+        }
 
         function addToCart(id, name, price) {
-            cart.push({ id, name, price });
+            cart.push({ id: id, name: name, price: Number(price) });
             updateUI();
         }
 
@@ -114,45 +125,68 @@
             const count = document.getElementById('cart-count');
             const itemsList = document.getElementById('cart-items');
             const total = document.getElementById('cart-total');
-            
-            count.innerText = cart.length;
-            
+
+            if (count) count.innerText = cart.length;
+
+            if (!itemsList || !total) return;
+
             if (cart.length === 0) {
                 itemsList.innerHTML = '<p class="text-center text-muted">Votre panier est vide.</p>';
-                total.innerText = "0.00 €";
+                total.innerText = '0.00 €';
                 return;
             }
 
             let totalPrice = 0;
-            itemsList.innerHTML = cart.map((item, index) => {
-                totalPrice += item.price;
-                return `<div class="d-flex justify-content-between mb-2">
-                            <span>${item.name}</span>
-                            <span>${item.price.toFixed(2)} €</span>
-                        </div>`;
-            }).join('');
-            
-            total.innerText = totalPrice.toFixed(2) + " €";
+            let html = '';
+            for (let i = 0; i < cart.length; i++) {
+                const item = cart[i];
+                totalPrice += Number(item.price) || 0;
+                html += '<div class="d-flex justify-content-between mb-2"><span>' + escapeHtml(item.name) + '</span><span>' + (Number(item.price).toFixed(2)) + ' €</span></div>';
+            }
+            itemsList.innerHTML = html;
+            total.innerText = (totalPrice).toFixed(2) + ' €';
+        }
+
+        // Simple HTML escape
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"/]+/g, function (m) {
+                return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[m];
+            });
         }
 
         async function redirectToCheckout() {
-            if (cart.length === 0) return alert("Votre panier est vide.");
+            if (cart.length === 0) {
+                alert('Votre panier est vide.');
+                return;
+            }
 
-            // Construct the items for Stripe
-            const lineItems = cart.map(item => ({
-                price: item.id, // This is the Stripe Price ID
-                quantity: 1
-            }));
+            if (!stripe) {
+                alert('Paiement non disponible pour le moment.');
+                return;
+            }
 
-            const { error } = await stripe.redirectToCheckout({
-                lineItems: lineItems,
-                mode: 'payment',
-                successUrl: window.location.origin + '/success.html',
-                cancelUrl: window.location.origin + '/index.html',
+            const lineItems = cart.map(function(item) {
+                return { price: item.id, quantity: 1 };
             });
 
-            if (error) alert(error.message);
+            try {
+                const { error } = await stripe.redirectToCheckout({
+                    lineItems: lineItems,
+                    mode: 'payment',
+                    successUrl: window.location.origin + '/success.html',
+                    cancelUrl: window.location.origin + '/index.html'
+                });
+                if (error) alert(error.message || 'Erreur lors du paiement');
+            } catch (err) {
+                console.error('redirectToCheckout failed', err);
+                alert('Impossible d\'accéder au paiement pour le moment.');
+            }
         }
+
+        // Initialize UI on DOM ready
+        document.addEventListener('DOMContentLoaded', function () {
+            updateUI();
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
