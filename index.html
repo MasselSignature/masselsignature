@@ -25,10 +25,10 @@
         .gallery { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
         .gallery-title { text-align: center; font-size: 3em; color: #d4af37; margin-bottom: 60px; text-transform: uppercase; }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .gallery-item { position: relative; border-radius: 15px; box-shadow: 0 10px 40px rgba(212,175,55,0.2); padding-bottom: 80px; background: #000; transition: all 0.4s; }
+        .gallery-item { position: relative; border-radius: 15px; box-shadow: 0 10px 40px rgba(212,175,55,0.2); padding-bottom: 80px; background: #000; transition: all 0.4s; overflow: hidden; }
         .gallery-item:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(212,175,55,0.4); }
-        .gallery-item img { width: 100%; border-radius: 15px 15px 0 0; display: block; }
-        .add-to-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
+        .gallery-item img { width: 100%; height: auto; border-radius: 15px 15px 0 0; display: block; }
+        .add-to-cart-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; transition: all 0.3s; white-space: nowrap; }
         .add-to-cart-btn:hover { background: linear-gradient(135deg, #f0c24a 0%, #d4af37 100%); transform: translateX(-50%) translateY(-5px); }
         .contact-footer { position: fixed; bottom: 30px; right: 30px; z-index: 999; }
         .contact-footer-btn { background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: 2px solid #d4af37; padding: 18px 40px; font-size: 1.2em; cursor: pointer; border-radius: 50px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; font-family: Georgia, serif; }
@@ -142,7 +142,7 @@
                 <div id="cart-summary" class="cart-summary" style="display: none;">
                     <h2>Résumé</h2>
                     <div class="cart-total">Total: <span id="cart-total-amount">0</span>€</div>
-                    <button class="checkout-btn" onclick="alert('Paiement: Total ' + cart.reduce((s,i) => s + i.price, 0) + '€. Intégration Stripe/PayPal à venir.')">Procéder au paiement</button>
+                    <button class="checkout-btn" onclick="goToCheckout()">Procéder au paiement</button>
                 </div>
             </div>
         </div>
@@ -154,6 +154,32 @@
 
     <div id="contact" class="page">
         <div class="placeholder-page"><h1>Contact</h1><p>Coming Soon</p></div>
+    </div>
+
+    <div id="checkout" class="page">
+        <div class="placeholder-page">
+            <h1>Paiement</h1>
+            <div style="max-width: 800px; margin: 40px auto; background: rgba(26,26,26,0.6); padding: 40px; border-radius: 15px; border: 2px solid rgba(212,175,55,0.2);">
+                <h2 style="color: #d4af37; margin-bottom: 30px;">Votre commande</h2>
+                <div id="checkout-items" style="margin-bottom: 30px;"></div>
+                <div style="font-size: 2em; color: #d4af37; font-weight: bold; padding-top: 20px; border-top: 2px solid rgba(212,175,55,0.3);">
+                    Total: <span id="checkout-total">0</span>€
+                </div>
+                <h2 style="color: #d4af37; margin: 40px 0 20px;">Mode de paiement</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <label style="display: flex; align-items: center; padding: 20px; background: rgba(0,0,0,0.4); border: 2px solid rgba(212,175,55,0.2); border-radius: 10px; cursor: pointer;">
+                        <input type="radio" name="payment" value="card" checked style="margin-right: 15px; width: 20px; height: 20px;">
+                        <div><strong style="color: #d4af37; font-size: 1.1em;">Carte bancaire</strong><p style="color: rgba(255,255,255,0.6); margin-top: 5px;">Visa, Mastercard, Amex</p></div>
+                    </label>
+                    <label style="display: flex; align-items: center; padding: 20px; background: rgba(0,0,0,0.4); border: 2px solid rgba(212,175,55,0.2); border-radius: 10px; cursor: pointer;">
+                        <input type="radio" name="payment" value="paypal" style="margin-right: 15px; width: 20px; height: 20px;">
+                        <div><strong style="color: #d4af37; font-size: 1.1em;">PayPal</strong><p style="color: rgba(255,255,255,0.6); margin-top: 5px;">Paiement sécurisé</p></div>
+                    </label>
+                </div>
+                <button onclick="processPayment()" style="width: 100%; padding: 20px; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #000; border: none; border-radius: 10px; font-size: 1.3em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 30px;">Confirmer le paiement</button>
+                <button onclick="showPage('panier')" style="width: 100%; padding: 15px; background: transparent; color: #d4af37; border: 2px solid rgba(212,175,55,0.4); border-radius: 10px; font-size: 1em; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; margin-top: 15px;">Retour au panier</button>
+            </div>
+        </div>
     </div>
 
     <script>
