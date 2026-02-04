@@ -78,7 +78,7 @@
 
     <div id="accueil" class="page active">
         <div class="main-image-container">
-            <img src="gorilla.png" alt="Massel Signature">
+            <img src="./gorilla.png" alt="Massel Signature" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/gorilla.png'">
             <div class="tagline">Sophistication. Power. Signature.</div>
         </div>
         <div class="manifesto">
@@ -95,24 +95,24 @@
             <h1 class="gallery-title">Royale Strip Collection</h1>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="gorilla.png" alt="Gorilla">
-                    <button class="add-to-cart-btn" onclick="addToCart('Gorilla Poker', 'gorilla.png', 149)">Ajouter - 149€</button>
+                    <img src="./gorilla.png" alt="Gorilla" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/gorilla.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Gorilla Poker', './gorilla.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="lioness.png" alt="Lioness">
-                    <button class="add-to-cart-btn" onclick="addToCart('Lioness Noir', 'lioness.png', 149)">Ajouter - 149€</button>
+                    <img src="./lioness.png" alt="Lioness" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/lioness.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Lioness Noir', './lioness.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="buffalo.png" alt="Buffalo">
-                    <button class="add-to-cart-btn" onclick="addToCart('Buffalo Power', 'buffalo.png', 149)">Ajouter - 149€</button>
+                    <img src="./buffalo.png" alt="Buffalo" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/buffalo.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Buffalo Power', './buffalo.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="wolf.png" alt="Wolf">
-                    <button class="add-to-cart-btn" onclick="addToCart('Wolf Intensity', 'wolf.png', 149)">Ajouter - 149€</button>
+                    <img src="./wolf.png" alt="Wolf" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/wolf.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Wolf Intensity', './wolf.png', 149)">Ajouter - 149€</button>
                 </div>
                 <div class="gallery-item">
-                    <img src="lion.png" alt="Lion">
-                    <button class="add-to-cart-btn" onclick="addToCart('Lion Legacy', 'lion.png', 149)">Ajouter - 149€</button>
+                    <img src="./lion.png" alt="Lion" onerror="this.onerror=null; this.src='https://masselsignature.github.io/masselsignature/lion.png'">
+                    <button class="add-to-cart-btn" onclick="addToCart('Lion Legacy', './lion.png', 149)">Ajouter - 149€</button>
                 </div>
             </div>
         </div>
@@ -230,6 +230,34 @@
                 event.target.classList.add('active');
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToCheckout() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide');
+                return;
+            }
+            
+            let total = 0;
+            const checkoutItems = document.getElementById('checkout-items');
+            checkoutItems.innerHTML = cart.map(item => {
+                total += item.price;
+                return '<div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid rgba(212,175,55,0.1);"><span>' + item.name + '</span><span style="color: #d4af37;">' + item.price + '€</span></div>';
+            }).join('');
+            
+            document.getElementById('checkout-total').textContent = total;
+            showPage('checkout');
+        }
+
+        function processPayment() {
+            const payment = document.querySelector('input[name="payment"]:checked').value;
+            const total = cart.reduce((s, i) => s + i.price, 0);
+            
+            alert('Commande confirmée!\nTotal: ' + total + '€\nMode: ' + (payment === 'card' ? 'Carte bancaire' : 'PayPal') + '\n\nIntégration paiement à venir.');
+            
+            cart = [];
+            updateCart();
+            showPage('accueil');
         }
     </script>
 </body>
