@@ -12,29 +12,30 @@
     <style>
         :root { --gold: #C5A059; --black: #0a0a0a; --grey: #1a1a1a; }
         body { background-color: var(--black); color: #fff; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
-        h1, h2, h3, .navbar-brand { font-family: 'Playfair Display', serif; color: var(--gold); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
 
-        /* Brand Header */
+        /* Header & Nav */
         .brand-header { padding: 40px 0; text-align: center; border-bottom: 1px solid var(--gold); background: var(--black); }
         .brand-header h1 { font-size: 3.5rem; color: var(--gold); margin: 0; font-weight: 700; letter-spacing: 8px; }
-
-        /* Navigation */
         .navbar { background: #111 !important; border-bottom: 1px solid #333; padding: 15px 0; }
         .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin: 0 15px; }
 
-        /* Intro Text Styling */
-        .intro-text { line-height: 1.8; color: #e0e0e0; max-width: 800px; margin: 0 auto; }
-        .intro-highlight { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 20px; font-style: italic; }
+        /* Accueil Section (The Statement) */
+        .welcome-section { min-height: 80vh; display: flex; align-items: center; padding: 100px 0; }
+        .intro-text { line-height: 2; color: #e0e0e0; max-width: 850px; margin: 0 auto; font-weight: 300; }
+        .intro-highlight { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 30px; font-style: italic; }
 
-        /* Product Cards */
-        .product-card { background: var(--grey); border: 1px solid #333; padding: 20px; transition: 0.4s; text-align: center; margin-bottom: 30px; }
-        .product-img { width: 100%; height: 400px; object-fit: cover; border: 1px solid #222; margin-bottom: 15px; }
+        /* Royale Strip (The Gallery) */
+        section { padding: 100px 0; }
+        .product-card { background: var(--grey); border: 1px solid #333; padding: 25px; transition: 0.5s; text-align: center; height: 100%; }
+        .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
+        .product-img { width: 100%; height: 450px; object-fit: cover; border: 1px solid #222; margin-bottom: 20px; }
 
-        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 10px 20px; text-transform: uppercase; transition: 0.3s; width: 100%; }
+        /* Buttons & UI */
+        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 12px 20px; text-transform: uppercase; transition: 0.3s; width: 100%; font-size: 0.8rem; letter-spacing: 1px; }
         .btn-gold:hover { background: var(--gold); color: #000; }
-
-        #panier { background: #050505; border: 2px solid var(--gold); padding: 30px; margin-top: 50px; }
-        .btn-checkout { background: var(--gold); color: #000; font-weight: bold; width: 100%; padding: 15px; margin-top: 20px; border: none; }
+        #panier { background: #050505; border: 2px solid var(--gold); padding: 40px; margin-top: 50px; }
+        .btn-checkout { background: var(--gold); color: #000; font-weight: bold; width: 100%; padding: 18px; margin-top: 30px; border: none; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -54,29 +55,31 @@
         </div>
     </nav>
 
-    <section id="accueil" class="container py-5 text-center">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 mt-5">
-                <p class="intro-highlight">Chez Massel Signature, l’art digital devient une signature.</p>
-                <div class="intro-text">
-                    <p>Chaque affiche est pensée comme une œuvre à part entière, mêlant caractère, émotion et esthétisme contemporain.</p>
-                    <p>Mes créations transforment vos murs en véritables déclarations visuelles. Elles apportent une atmosphère, une identité, une présence. Inspirées par la puissance animale, le luxe discret et l’univers bohème, elles s’intègrent aussi bien dans un intérieur moderne que dans un espace plus chaleureux.</p>
-                    <p class="fw-bold text-white">Ici, vous ne choisissez pas simplement une affiche. Vous choisissez une ambiance. Une énergie. Une façon d’habiter votre espace.</p>
-                    <p>Toutes les œuvres sont livrées en format digital haute définition, vous laissant une liberté totale d’impression : papier, toile, aluminium ou plexiglas, au format qui vous ressemble.</p>
-                    <p class="mt-4" style="color:var(--gold); letter-spacing: 2px;">Massel Signature, c’est l’art comme empreinte personnelle.</p>
+    <section id="accueil" class="welcome-section text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <p class="intro-highlight">Chez Massel Signature, l’art digital devient une signature.</p>
+                    <div class="intro-text">
+                        <p>Chaque affiche est pensée comme une œuvre à part entière, mêlant caractère, émotion et esthétisme contemporain.</p>
+                        <p>Mes créations transforment vos murs en véritables déclarations visuelles. Elles apportent une atmosphère, une identité, une présence. Inspirées par la puissance animale, le luxe discret et l’univers bohème, elles s’intègrent aussi bien dans un intérieur moderne que dans un espace plus chaleureux.</p>
+                        <p class="fw-bold text-white py-3">Ici, vous ne choisissez pas simplement une affiche. Vous choisissez une ambiance. Une énergie. Une façon d’habiter votre espace.</p>
+                        <p>Toutes les œuvres sont livrées en format digital haute définition, vous laissant une liberté totale d’impression : papier, toile, aluminium ou plexiglas, au format qui vous ressemble.</p>
+                        <h3 class="mt-5" style="letter-spacing: 4px; font-size: 1.2rem;">Massel Signature, c’est l’art comme empreinte personnelle.</h3>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="royale" class="container py-5">
-        <h2 class="text-center mb-5">ROYALE STRIP</h2>
+    <section id="royale" class="container">
+        <h2 class="text-center mb-5" style="letter-spacing: 10px;">ROYALE STRIP</h2>
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="product-card">
                     <img src="buffalo.png" class="product-img" alt="Buffalo">
                     <h3>Buffalo</h3>
-                    <p>450,00 €</p>
+                    <p class="text-muted">450,00 €</p>
                     <button class="btn btn-gold" onclick="addToCart('Buffalo', 450)">Ajouter au Panier</button>
                 </div>
             </div>
@@ -84,7 +87,7 @@
                 <div class="product-card">
                     <img src="gorilla.png" class="product-img" alt="Gorilla">
                     <h3>Gorilla</h3>
-                    <p>450,00 €</p>
+                    <p class="text-muted">450,00 €</p>
                     <button class="btn btn-gold" onclick="addToCart('Gorilla', 450)">Ajouter au Panier</button>
                 </div>
             </div>
@@ -92,8 +95,24 @@
                 <div class="product-card">
                     <img src="lion.png" class="product-img" alt="Lion">
                     <h3>Lion</h3>
-                    <p>450,00 €</p>
+                    <p class="text-muted">450,00 €</p>
                     <button class="btn btn-gold" onclick="addToCart('Lion', 450)">Ajouter au Panier</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="lioness.png" class="product-img" alt="Lioness">
+                    <h3>Lioness</h3>
+                    <p class="text-muted">450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Lioness', 450)">Ajouter au Panier</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="wolf.png" class="product-img" alt="Wolf">
+                    <h3>Wolf</h3>
+                    <p class="text-muted">450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Wolf', 450)">Ajouter au Panier</button>
                 </div>
             </div>
         </div>
@@ -113,27 +132,27 @@
         </div>
     </section>
 
-    <section id="payment-area" class="container py-5" style="display:none; background:#111; border:1px dashed var(--gold);">
+    <div id="payment-area" class="container py-5" style="display:none; background:#111; border:1px dashed var(--gold); margin-bottom: 50px;">
         <h2 class="text-center mb-4">PAIEMENT SÉCURISÉ</h2>
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <input type="text" class="form-control bg-dark text-white mb-3" placeholder="Nom sur la carte">
-                <input type="text" class="form-control bg-dark text-white mb-3" placeholder="Numéro de Carte">
+                <input type="text" class="form-control bg-dark text-white border-secondary mb-3" placeholder="Nom sur la carte">
+                <input type="text" class="form-control bg-dark text-white border-secondary mb-3" placeholder="Numéro de Carte">
                 <div class="row">
-                    <div class="col-6 mb-3"><input type="text" class="form-control bg-dark text-white" placeholder="MM/YY"></div>
-                    <div class="col-6 mb-3"><input type="text" class="form-control bg-dark text-white" placeholder="CVC"></div>
+                    <div class="col-6 mb-3"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="MM/YY"></div>
+                    <div class="col-6 mb-3"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="CVC"></div>
                 </div>
-                <button class="btn-checkout mt-4" onclick="alert('Commande validée !')">PAYER MAINTENANT</button>
+                <button class="btn-checkout mt-4" onclick="alert('Simulation: Commande validée !')">PAYER MAINTENANT</button>
             </div>
         </div>
-    </section>
+    </div>
 
     <script>
         let cart = [];
         function addToCart(name, price) {
             cart.push({ name, price });
             updateCartUI();
-            alert(name + " ajouté !");
+            alert(name + " a été ajouté à votre panier.");
             document.getElementById('panier').scrollIntoView();
         }
         function updateCartUI() {
@@ -141,7 +160,7 @@
             const totalArea = document.getElementById('cart-total-area');
             const totalPriceElement = document.getElementById('total-price');
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-center">Le panier est vide.</p>';
+                container.innerHTML = '<p class="text-center">Votre panier est vide.</p>';
                 totalArea.style.display = 'none';
                 return;
             }
@@ -150,7 +169,7 @@
             let total = 0;
             cart.forEach((item) => {
                 total += item.price;
-                container.innerHTML += `<div class="d-flex justify-content-between border-bottom py-2"><span>${item.name}</span><span>${item.price},00 €</span></div>`;
+                container.innerHTML += `<div class="d-flex justify-content-between border-bottom py-3"><span>${item.name}</span><span>${item.price},00 €</span></div>`;
             });
             totalPriceElement.innerText = total + ",00 €";
         }
