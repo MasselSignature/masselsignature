@@ -2,18 +2,22 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Panier | MASSEL SIGNATURE</title>
+    <title>Mon Panier | MASSEL SIGNATURE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <style>
-        body { background: #0a0a0a; color: white; font-family: 'Montserrat', sans-serif; }
+        :root { --gold: #C5A059; --black: #0a0a0a; }
+        body { background: var(--black); color: white; font-family: 'Montserrat', sans-serif; }
         .brand-header { padding: 30px 0; text-align: center; }
-        .navbar { background: #111 !important; border-bottom: 1px solid #C5A059; padding: 15px 0; }
+        .navbar { background: #111 !important; border-bottom: 1px solid var(--gold); padding: 15px 0; }
         .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.8rem; margin: 0 15px; }
-        .checkout-box { border: 1px solid #C5A059; padding: 40px; background: #111; margin-top: 50px; }
+        .checkout-box { border: 1px solid var(--gold); padding: 40px; background: #111; margin-top: 50px; }
+        .btn-pay { background: var(--gold); color: #000; font-weight: bold; width: 100%; border: none; padding: 15px; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <header class="brand-header"><h1 style="color:#C5A059; letter-spacing:8px;">MASSEL SIGNATURE</h1></header>
+    <header class="brand-header"><h1 style="color:var(--gold); font-family:'Playfair Display'; letter-spacing:8px;">MASSEL SIGNATURE</h1></header>
+    
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
         <div class="container justify-content-center">
             <div class="navbar-nav">
@@ -24,15 +28,57 @@
             </div>
         </div>
     </nav>
-    <div class="container text-center py-5">
-        <h2 style="color:#C5A059;">VOTRE PANIER</h2>
+
+    <div class="container py-5">
+        <h2 class="text-center" style="color:var(--gold); font-family:'Playfair Display';">VOTRE RÉCAPITULATIF</h2>
         <div class="row justify-content-center">
             <div class="col-md-6 checkout-box">
-                <p>Votre panier est prêt pour le paiement.</p>
-                <hr style="background: #333">
-                <button class="btn btn-outline-warning w-100 p-3">PROCÉDER AU PAIEMENT</button>
+                <div id="cart-display">
+                    <p class="text-center">Chargement de votre sélection...</p>
+                </div>
+                <hr style="background: #444">
+                
+                <div id="payment-form" style="display:none;">
+                    <h4 class="mb-4">Détails de Paiement</h4>
+                    <input type="text" class="form-control mb-3 bg-dark text-white border-secondary" placeholder="Nom sur la carte">
+                    <input type="text" class="form-control mb-3 bg-dark text-white border-secondary" placeholder="Numéro de Carte (0000 0000 ...)">
+                    <div class="row">
+                        <div class="col-6"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="MM/YY"></div>
+                        <div class="col-6"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="CVC"></div>
+                    </div>
+                    <button class="btn-pay" onclick="confirmPayment()">PAYER MAINTENANT</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Check memory on load
+        window.onload = function() {
+            const name = localStorage.getItem('selectedProduct');
+            const price = localStorage.getItem('selectedPrice');
+            const display = document.getElementById('cart-display');
+            const form = document.getElementById('payment-form');
+
+            if (name && price) {
+                display.innerHTML = `
+                    <div class="d-flex justify-content-between fs-5 mb-2">
+                        <span>Affiche: <strong>${name}</strong></span>
+                        <span style="color:var(--gold)">${price},00 €</span>
+                    </div>
+                    <p class="text-muted small">Format Digital Haute Définition</p>
+                `;
+                form.style.display = 'block';
+            } else {
+                display.innerHTML = `<p class="text-center">Votre panier est vide. <br><a href="royale.html" class="text-warning">Voir la collection</a></p>`;
+            }
+        };
+
+        function confirmPayment() {
+            alert("Merci ! Votre commande pour l'affiche " + localStorage.getItem('selectedProduct') + " a été reçue. Vous recevrez un e-mail de confirmation.");
+            localStorage.clear(); // Clear cart after "buying"
+            window.location.href = "index.html";
+        }
+    </script>
 </body>
 </html>
