@@ -5,13 +5,15 @@
     <title>Mon Panier | MASSEL SIGNATURE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root { --gold: #C5A059; --black: #0a0a0a; }
+        :root { --gold: #C5A059; --black: #0a0a0a; --grey: #1a1a1a; }
         body { background: var(--black); color: white; font-family: 'Montserrat', sans-serif; }
         .navbar { background: #111 !important; border-bottom: 1px solid var(--gold); padding: 15px 0; }
         .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.8rem; margin: 0 15px; }
-        .checkout-box { border: 1px solid var(--gold); padding: 40px; background: #111; margin-top: 50px; }
-        .cart-img { width: 150px; height: 150px; object-fit: cover; border: 1px solid var(--gold); margin-bottom: 20px; }
+        .checkout-box { border: 1px solid var(--gold); padding: 40px; background: #111; margin-top: 30px; }
+        .cart-item { display: flex; align-items: center; border-bottom: 1px solid #333; padding: 15px 0; }
+        .cart-img { width: 80px; height: 80px; object-fit: cover; border: 1px solid var(--gold); margin-right: 20px; }
         .btn-pay { background: var(--gold); color: #000; font-weight: bold; width: 100%; border: none; padding: 15px; margin-top: 20px; }
+        .btn-clear { background: transparent; color: #ff4444; border: none; font-size: 0.8rem; text-decoration: underline; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -27,20 +29,23 @@
         </div>
     </nav>
 
-    <div class="container py-5 text-center">
-        <h2 style="color:var(--gold)">VOTRE PANIER</h2>
+    <div class="container py-5">
+        <h2 class="text-center" style="color:var(--gold)">VOTRE SÉLECTION</h2>
         <div class="row justify-content-center">
-            <div class="col-md-6 checkout-box">
+            <div class="col-md-8 checkout-box">
                 
-                <div id="cart-content">
-                    <p>Votre panier est vide.</p>
-                </div>
+                <div id="cart-list">
+                    </div>
 
-                <div id="payment-form" style="display:none;">
-                    <hr style="border-color:#333">
-                    <input type="text" class="form-control mb-2 bg-dark text-white border-secondary" placeholder="Nom sur la carte">
-                    <input type="text" class="form-control mb-3 bg-dark text-white border-secondary" placeholder="Numéro de carte">
+                <div id="summary-area" style="display:none;">
+                    <div class="d-flex justify-content-between fs-4 mt-4">
+                        <span>TOTAL</span>
+                        <span id="total-price" style="color:var(--gold)">0,00 €</span>
+                    </div>
                     <button class="btn-pay" onclick="processPayment()">PROCÉDER AU PAIEMENT</button>
+                    <div class="text-center mt-3">
+                        <button class="btn-clear" onclick="clearCart()">Vider le panier</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,25 +53,53 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const name = localStorage.getItem('selectedProduct');
-            const price = localStorage.getItem('selectedPrice');
-            const img = localStorage.getItem('selectedImage');
-            const content = document.getElementById('cart-content');
-            const form = document.getElementById('payment-form');
-
-            if (name) {
-                content.innerHTML = `
-                    <img src="${img}" class="cart-img" alt="${name}">
-                    <h3>${name}</h3>
-                    <p style="color:var(--gold); font-size: 1.5rem;">${price},00 €</p>
-                `;
-                form.style.display = 'block';
-            }
+            renderCart();
         });
 
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('masselCart')) || [];
+            const listContainer = document.getElementById('cart-list');
+            const summary = document.getElementById('summary-area');
+            const totalDisplay = document.getElementById('total-price');
+
+            if (cart.length === 0) {
+                listContainer.innerHTML = '<p class="text-center">Votre panier est vide.</p>';
+                summary.style.display = 'none';
+                return;
+            }
+
+            summary.style.display = 'block';
+            listContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += parseInt(item.price);
+                listContainer.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" class="cart-img">
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0">${item.name}</h5>
+                            <small class="text-muted">Format Digital HD</small>
+                        </div>
+                        <div class="text-end">
+                            <span style="color:var(--gold)">${item.price},00 €</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            totalDisplay.innerText = total + ",00 €";
+        }
+
+        function clearCart() {
+            localStorage.removeItem('masselCart');
+            renderCart();
+        }
+
         function processPayment() {
-            alert("Simulation: Paiement validé pour " + localStorage.getItem('selectedProduct'));
-            localStorage.clear(); // Clear memory after purchase
+            const cart = JSON.parse(localStorage.getItem('masselCart'));
+            alert("Merci ! Votre commande pour " + cart.length + " œuvres a été validée.");
+            localStorage.removeItem('masselCart');
             window.location.href = "index.html";
         }
     </script>
