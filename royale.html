@@ -27,8 +27,8 @@
         .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
         .product-img { width: 100%; height: 450px; object-fit: cover; border: 1px solid #222; margin-bottom: 20px; background: #222; }
 
-        /* Button */
-        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 12px 20px; text-transform: uppercase; width: 100%; font-size: 0.8rem; }
+        /* Button Styling */
+        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 12px 20px; text-transform: uppercase; width: 100%; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; }
         .btn-gold:hover { background: var(--gold); color: #000; }
         
         footer { padding: 40px; text-align: center; color: #555; font-size: 0.8rem; }
@@ -60,53 +60,65 @@
                     <img src="buffalo.png" class="product-img" alt="Buffalo">
                     <h3>Buffalo</h3>
                     <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold" onclick="addToCart('Buffalo')">Ajouter au Panier</button>
+                    <button class="btn btn-gold" onclick="addToCart('Buffalo', 450)">Ajouter au Panier</button>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="product-card">
                     <img src="gorilla.png" class="product-img" alt="Gorilla">
                     <h3>Gorilla</h3>
                     <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold" onclick="addToCart('Gorilla')">Ajouter au Panier</button>
+                    <button class="btn btn-gold" onclick="addToCart('Gorilla', 450)">Ajouter au Panier</button>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="product-card">
                     <img src="lion.png" class="product-img" alt="Lion">
                     <h3>Lion</h3>
                     <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold" onclick="addToCart('Lion')">Ajouter au Panier</button>
+                    <button class="btn btn-gold" onclick="addToCart('Lion', 450)">Ajouter au Panier</button>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="product-card">
                     <img src="lioness.png" class="product-img" alt="Lioness">
                     <h3>Lioness</h3>
                     <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold" onclick="addToCart('Lioness')">Ajouter au Panier</button>
+                    <button class="btn btn-gold" onclick="addToCart('Lioness', 450)">Ajouter au Panier</button>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="product-card">
                     <img src="wolf.png" class="product-img" alt="Wolf">
                     <h3>Wolf</h3>
                     <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold" onclick="addToCart('Wolf')">Ajouter au Panier</button>
+                    <button class="btn btn-gold" onclick="addToCart('Wolf', 450)">Ajouter au Panier</button>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 MASSEL SIGNATURE</p>
+        <p>&copy; 2026 MASSEL SIGNATURE | Boutique Royale Strip</p>
     </footer>
 
     <script>
-        function addToCart(item) {
-            alert(item + " a été ajouté ! Redirection vers votre panier...");
+        function addToCart(name, price) {
+            // 1. Save the selection to LocalStorage so the Panier page can find it
+            localStorage.setItem('selectedProduct', name);
+            localStorage.setItem('selectedPrice', price);
+            
+            // 2. Alert the user
+            alert(name + " a été ajouté ! Redirection vers votre panier...");
+            
+            // 3. Jump to the separate Panier page
             window.location.href = "panier.html";
         }
     </script>
+
 </body>
 </html>
