@@ -18,24 +18,30 @@
         .brand-header { padding: 40px 0; text-align: center; border-bottom: 1px solid var(--gold); background: var(--black); }
         .brand-header h1 { font-size: 3.5rem; color: var(--gold); margin: 0; font-weight: 700; letter-spacing: 8px; }
         .navbar { background: #111 !important; border-bottom: 1px solid #333; padding: 15px 0; }
-        .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin: 0 15px; }
+        .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin: 0 15px; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold) !important; }
 
-        /* Accueil Section (The Statement) */
-        .welcome-section { min-height: 80vh; display: flex; align-items: center; padding: 100px 0; }
+        /* Welcome Section */
+        .welcome-section { min-height: 70vh; display: flex; align-items: center; padding: 80px 0; }
         .intro-text { line-height: 2; color: #e0e0e0; max-width: 850px; margin: 0 auto; font-weight: 300; }
         .intro-highlight { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 30px; font-style: italic; }
 
-        /* Royale Strip (The Gallery) */
+        /* Product Gallery */
         section { padding: 100px 0; }
         .product-card { background: var(--grey); border: 1px solid #333; padding: 25px; transition: 0.5s; text-align: center; height: 100%; }
         .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
-        .product-img { width: 100%; height: 450px; object-fit: cover; border: 1px solid #222; margin-bottom: 20px; }
+        .product-img { width: 100%; height: 450px; object-fit: cover; border: 1px solid #222; margin-bottom: 20px; background: #222; }
 
-        /* Buttons & UI */
-        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 12px 20px; text-transform: uppercase; transition: 0.3s; width: 100%; font-size: 0.8rem; letter-spacing: 1px; }
-        .btn-gold:hover { background: var(--gold); color: #000; }
+        /* Cart Logic Styling */
         #panier { background: #050505; border: 2px solid var(--gold); padding: 40px; margin-top: 50px; }
+        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 15px 0; }
+
+        /* Buttons */
+        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 12px 20px; text-transform: uppercase; transition: 0.3s; width: 100%; font-size: 0.8rem; }
+        .btn-gold:hover { background: var(--gold); color: #000; }
         .btn-checkout { background: var(--gold); color: #000; font-weight: bold; width: 100%; padding: 18px; margin-top: 30px; border: none; letter-spacing: 2px; }
+        
+        footer { padding: 40px; text-align: center; color: #555; font-size: 0.8rem; border-top: 1px solid #222; }
     </style>
 </head>
 <body>
@@ -47,10 +53,10 @@
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
         <div class="container justify-content-center">
             <div class="navbar-nav">
-                <a class="nav-link" href="#accueil">Accueil</a>
+                <a class="nav-link" href="index.html">Accueil</a>
                 <a class="nav-link" href="#royale">Royale Strip</a>
                 <a class="nav-link" href="#panier">Panier</a>
-                <a class="nav-link" href="#contact">Contact</a>
+                <a class="nav-link" href="contact.html" style="color: var(--gold) !important;">Contact</a>
             </div>
         </div>
     </nav>
@@ -63,9 +69,9 @@
                     <div class="intro-text">
                         <p>Chaque affiche est pensée comme une œuvre à part entière, mêlant caractère, émotion et esthétisme contemporain.</p>
                         <p>Mes créations transforment vos murs en véritables déclarations visuelles. Elles apportent une atmosphère, une identité, une présence. Inspirées par la puissance animale, le luxe discret et l’univers bohème, elles s’intègrent aussi bien dans un intérieur moderne que dans un espace plus chaleureux.</p>
-                        <p class="fw-bold text-white py-3">Ici, vous ne choisissez pas simplement une affiche. Vous choisissez une ambiance. Une énergie. Une façon d’habiter votre espace.</p>
+                        <p class="fw-bold text-white py-2">Ici, vous ne choisissez pas simplement une affiche. Vous choisissez une ambiance. Une énergie. Une façon d’habiter votre espace.</p>
                         <p>Toutes les œuvres sont livrées en format digital haute définition, vous laissant une liberté totale d’impression : papier, toile, aluminium ou plexiglas, au format qui vous ressemble.</p>
-                        <h3 class="mt-5" style="letter-spacing: 4px; font-size: 1.2rem;">Massel Signature, c’est l’art comme empreinte personnelle.</h3>
+                        <p class="mt-4" style="color:var(--gold); letter-spacing: 3px; font-weight: 600;">MASSEL SIGNATURE, C’EST L’ART COMME EMPREINTE PERSONNELLE.</p>
                     </div>
                 </div>
             </div>
@@ -118,7 +124,7 @@
         </div>
     </section>
 
-    <section id="panier" class="container my-5">
+    <section id="panier" class="container">
         <h2 class="text-center mb-4">MON PANIER</h2>
         <div id="cart-content">
             <p class="text-center text-muted">Votre panier est actuellement vide.</p>
@@ -128,31 +134,20 @@
                 <span>TOTAL</span>
                 <span id="total-price" style="color:var(--gold)">0,00 €</span>
             </div>
-            <button class="btn-checkout" onclick="document.getElementById('payment-area').style.display='block'; window.location.hash='payment-area';">PROCÉDER AU PAIEMENT</button>
+            <button class="btn-checkout" onclick="alert('Redirection vers le paiement sécurisé...')">PROCÉDER AU PAIEMENT</button>
         </div>
     </section>
 
-    <div id="payment-area" class="container py-5" style="display:none; background:#111; border:1px dashed var(--gold); margin-bottom: 50px;">
-        <h2 class="text-center mb-4">PAIEMENT SÉCURISÉ</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <input type="text" class="form-control bg-dark text-white border-secondary mb-3" placeholder="Nom sur la carte">
-                <input type="text" class="form-control bg-dark text-white border-secondary mb-3" placeholder="Numéro de Carte">
-                <div class="row">
-                    <div class="col-6 mb-3"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="MM/YY"></div>
-                    <div class="col-6 mb-3"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="CVC"></div>
-                </div>
-                <button class="btn-checkout mt-4" onclick="alert('Simulation: Commande validée !')">PAYER MAINTENANT</button>
-            </div>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2026 MASSEL SIGNATURE | Tous droits réservés.</p>
+    </footer>
 
     <script>
         let cart = [];
         function addToCart(name, price) {
             cart.push({ name, price });
             updateCartUI();
-            alert(name + " a été ajouté à votre panier.");
+            alert(name + " ajouté avec succès !");
             document.getElementById('panier').scrollIntoView();
         }
         function updateCartUI() {
@@ -169,7 +164,11 @@
             let total = 0;
             cart.forEach((item) => {
                 total += item.price;
-                container.innerHTML += `<div class="d-flex justify-content-between border-bottom py-3"><span>${item.name}</span><span>${item.price},00 €</span></div>`;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span>${item.price},00 €</span>
+                    </div>`;
             });
             totalPriceElement.innerText = total + ",00 €";
         }
