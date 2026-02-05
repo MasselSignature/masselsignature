@@ -1,4 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royale Strip | Boutique MASSEL SIGNATURE</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --gold: #C5A059; --black: #0a0a0a; --grey: #1a1a1a; }
+        body { background-color: var(--black); color: #fff; font-family: 'Montserrat', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+        /* Header & Master Navigation */
+        .brand-header { padding: 30px 0; text-align: center; background: var(--black); }
+        .brand-header h1 { font-size: 2.5rem; color: var(--gold); letter-spacing: 8px; margin: 0; }
+        .navbar { background: #111 !important; border-top: 1px solid #333; border-bottom: 1px solid var(--gold); padding: 15px 0; }
+        .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin: 0 15px; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold) !important; }
+
+        /* Product Gallery */
+        .gallery-container { padding: 60px 0; }
+        .product-card { background: var(--grey); border: 1px solid #333; padding: 25px; transition: 0.5s; text-align: center; height: 100%; }
+        .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
+        .product-img { width: 100%; height: 450px; object-fit: cover; border: 1px solid #222; margin-bottom: 20px; background: #222; }
+
+        /* Button */
+        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 12px 20px; text-transform: uppercase; width: 100%; font-size: 0.8rem; }
+        .btn-gold:hover { background: var(--gold); color: #000; }
+        
+        footer { padding: 40px; text-align: center; color: #555; font-size: 0.8rem; }
+    </style>
+</head>
 <body>
+
     <header class="brand-header">
         <h1>MASSEL SIGNATURE</h1>
     </header>
@@ -7,24 +44,69 @@
         <div class="container justify-content-center">
             <div class="navbar-nav">
                 <a class="nav-link" href="index.html">Accueil</a>
-                <a class="nav-link" href="royale.html">Royale Strip</a>
+                <a class="nav-link active" href="royale.html">Royale Strip</a>
                 <a class="nav-link" href="panier.html">Panier</a>
                 <a class="nav-link" href="contact.html">Contact</a>
             </div>
         </div>
     </nav>
 
-    </body>
-<section id="royale" class="container py-5">
-    <h1 class="text-center gold-text mb-5">ROYALE STRIP</h1>
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="product-card text-center p-3 border border-secondary">
-                <img src="buffalo.png" class="img-fluid mb-3" alt="Buffalo">
-                <h3>Buffalo</h3>
-                <p>450,00 €</p>
-                <a href="panier.html" class="btn btn-outline-warning">Acheter Maintenant</a>
+    <div class="container gallery-container">
+        <h2 class="text-center mb-5" style="letter-spacing: 10px;">COLLECTION ROYALE STRIP</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="buffalo.png" class="product-img" alt="Buffalo">
+                    <h3>Buffalo</h3>
+                    <p class="text-muted">450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Buffalo')">Ajouter au Panier</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="gorilla.png" class="product-img" alt="Gorilla">
+                    <h3>Gorilla</h3>
+                    <p class="text-muted">450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Gorilla')">Ajouter au Panier</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="lion.png" class="product-img" alt="Lion">
+                    <h3>Lion</h3>
+                    <p class="text-muted">450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Lion')">Ajouter au Panier</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="lioness.png" class="product-img" alt="Lioness">
+                    <h3>Lioness</h3>
+                    <p class="text-muted">450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Lioness')">Ajouter au Panier</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="wolf.png" class="product-img" alt="Wolf">
+                    <h3>Wolf</h3>
+                    <p class="text-muted">450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Wolf')">Ajouter au Panier</button>
+                </div>
             </div>
         </div>
-        </div>
-</section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MASSEL SIGNATURE</p>
+    </footer>
+
+    <script>
+        function addToCart(item) {
+            alert(item + " a été ajouté ! Redirection vers votre panier...");
+            window.location.href = "panier.html";
+        }
+    </script>
+</body>
+</html>
