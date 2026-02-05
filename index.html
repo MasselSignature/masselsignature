@@ -7,45 +7,33 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        :root { --gold: #C5A059; --dark: #0a0a0a; --grey: #1a1a1a; }
-        
-        body { background-color: var(--dark); color: #ffffff; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; letter-spacing: 2px; }
+        :root { --gold: #C5A059; --black: #0a0a0a; --grey: #1a1a1a; }
+        body { background-color: var(--black); color: #fff; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
+        h1, h2, h3, .navbar-brand { font-family: 'Playfair Display', serif; }
 
-        /* Brand Header */
-        .brand-header { padding: 40px 0; text-align: center; background: var(--dark); }
-        .brand-header h1 { font-size: 3.5rem; color: var(--gold); margin: 0; font-weight: 700; letter-spacing: 8px; }
+        /* Header */
+        .brand-header { padding: 40px 0; text-align: center; border-bottom: 1px solid var(--gold); background: var(--black); }
+        .brand-header h1 { font-size: 3rem; color: var(--gold); letter-spacing: 8px; margin: 0; }
 
         /* Navigation */
-        .navbar { background: var(--grey) !important; border-top: 1px solid #333; border-bottom: 1px solid var(--gold); padding: 15px 0; }
-        .nav-link { color: #ffffff !important; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; margin: 0 15px; transition: 0.3s; }
-        .nav-link:hover { color: var(--gold) !important; }
-
-        /* Hero */
-        .hero-wrap { height: 60vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('Images/lion.jpg') center/cover; }
-
-        /* Sections */
-        section { padding: 100px 0; border-bottom: 1px solid #222; }
-        .section-title { font-size: 2.5rem; color: var(--gold); margin-bottom: 50px; text-transform: uppercase; text-align: center; }
+        .navbar { background: #111 !important; border-bottom: 1px solid #333; }
+        .nav-link { color: #fff !important; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin: 0 15px; }
 
         /* Product Cards */
-        .product-card { background: var(--grey); border: 1px solid #333; padding: 20px; transition: 0.5s; text-align: center; height: 100%; }
-        .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
-        .product-img { width: 100%; height: 400px; object-fit: cover; margin-bottom: 20px; border: 1px solid #222; }
-        
+        .product-card { background: var(--grey); border: 1px solid #333; padding: 20px; transition: 0.4s; text-align: center; margin-bottom: 30px; }
+        .product-img { width: 100%; height: 400px; object-fit: cover; border: 1px solid #222; margin-bottom: 15px; }
+
+        /* Panier Section */
+        #panier { background: #050505; border: 2px solid var(--gold); padding: 30px; margin-top: 50px; }
+        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; }
+
         /* Buttons */
-        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 12px 30px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+        .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 0; padding: 10px 20px; text-transform: uppercase; transition: 0.3s; }
         .btn-gold:hover { background: var(--gold); color: #000; }
-
-        /* Contact Form */
-        .form-control, .form-select { background: #111 !important; border: 1px solid #333 !important; color: white !important; border-radius: 0; padding: 15px; margin-bottom: 20px; }
-        .form-control:focus { border-color: var(--gold) !important; box-shadow: none; }
-        label { color: var(--gold); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; }
-
-        footer { padding: 50px 0; background: #050505; text-align: center; color: #555; font-size: 0.8rem; }
+        .btn-checkout { background: var(--gold); color: #000; font-weight: bold; width: 100%; padding: 15px; margin-top: 20px; border: none; }
     </style>
 </head>
 <body>
@@ -54,118 +42,118 @@
         <h1>MASSEL SIGNATURE</h1>
     </header>
 
-    <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+    <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container justify-content-center">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-center" id="navContent">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#accueil">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#royale">Royale Strip</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#icons">Icons</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#boheme">Boheme</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#enfant">Enfant</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                </ul>
+            <div class="navbar-nav">
+                <a class="nav-link" href="#accueil">Accueil</a>
+                <a class="nav-link" href="#royale">Royale Strip</a>
+                <a class="nav-link" href="#panier">Panier</a>
+                <a class="nav-link" href="#contact">Contact</a>
             </div>
         </div>
     </nav>
 
-    <div id="accueil" class="hero-wrap">
-        <div class="text-center">
-            <h2 class="display-1 fw-bold">L'ÉLÉGANCE ROYALE</h2>
-            <p class="lead text-uppercase" style="letter-spacing: 5px;">Collection 2026</p>
-        </div>
-    </div>
-
-    <section id="royale" class="container">
-        <h2 class="section-title">Royale Strip</h2>
+    <section id="royale" class="container py-5">
+        <h2 class="text-center mb-5" style="color:var(--gold)">ROYALE STRIP</h2>
         <div class="row g-4">
-            <div class="col-md-4 col-lg-4">
+            <div class="col-md-4">
                 <div class="product-card">
                     <img src="Images/buffalo.jpg" class="product-img" alt="Buffalo" onerror="this.src='https://placehold.co/400x600/1a1a1a/C5A059?text=Buffalo'">
                     <h3>Buffalo</h3>
-                    <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold w-100">Ajouter au Panier</button>
+                    <p>450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Buffalo', 450)">Ajouter au Panier</button>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="product-card">
-                    <img src="Images/gorilla.jpg" class="product-img" alt="Gorilla" onerror="this.src='https://placehold.co/400x600/1a1a1a/C5A059?text=Gorilla'">
-                    <h3>Gorilla</h3>
-                    <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold w-100">Ajouter au Panier</button>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
+            <div class="col-md-4">
                 <div class="product-card">
                     <img src="Images/lion.jpg" class="product-img" alt="Lion" onerror="this.src='https://placehold.co/400x600/1a1a1a/C5A059?text=Lion'">
                     <h3>Lion</h3>
-                    <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold w-100">Ajouter au Panier</button>
+                    <p>450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Lion', 450)">Ajouter au Panier</button>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4 offset-lg-2">
+            <div class="col-md-4">
                 <div class="product-card">
-                    <img src="Images/wolf.jpg" class="product-img" alt="Wolf" onerror="this.src='https://placehold.co/400x600/1a1a1a/C5A059?text=Wolf'">
-                    <h3>Wolf</h3>
-                    <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold w-100">Ajouter au Panier</button>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="product-card">
-                    <img src="Images/lioness.jpg" class="product-img" alt="Lioness" onerror="this.src='https://placehold.co/400x600/1a1a1a/C5A059?text=Lioness'">
-                    <h3>Lioness</h3>
-                    <p class="text-muted">450,00 €</p>
-                    <button class="btn btn-gold w-100">Ajouter au Panier</button>
+                    <img src="Images/gorilla.jpg" class="product-img" alt="Gorilla" onerror="this.src='https://placehold.co/400x600/1a1a1a/C5A059?text=Gorilla'">
+                    <h3>Gorilla</h3>
+                    <p>450,00 €</p>
+                    <button class="btn btn-gold" onclick="addToCart('Gorilla', 450)">Ajouter au Panier</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="icons" class="container text-center"><h2 class="section-title">Icons</h2><p>Collection en cours de création...</p></section>
-    <section id="boheme" class="container text-center"><h2 class="section-title">Boheme</h2><p>Prochainement disponible.</p></section>
-    <section id="enfant" class="container text-center"><h2 class="section-title">Enfant</h2><p>L'univers des petits princes.</p></section>
+    <section id="panier" class="container my-5">
+        <h2 class="text-center mb-4" style="color:var(--gold)">VOTRE PANIER</h2>
+        <div id="cart-content">
+            <p class="text-center text-muted">Votre panier est actuellement vide.</p>
+        </div>
+        <div id="cart-total-area" style="display:none;">
+            <div class="d-flex justify-content-between fs-4 mt-4 border-top pt-3">
+                <span>TOTAL</span>
+                <span id="total-price" style="color:var(--gold)">0,00 €</span>
+            </div>
+            <button class="btn-checkout" onclick="goToPayment()">PROCÉDER AU PAIEMENT</button>
+        </div>
+    </section>
 
-    <section id="contact" class="container">
-        <h2 class="section-title">Nous Contacter</h2>
+    <section id="payment-area" class="container py-5" style="display:none; background:#111; border:1px dashed var(--gold);">
+        <h2 class="text-center mb-4">DÉTAILS DE PAIEMENT SÉCURISÉ</h2>
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form action="https://formspree.io/f/votre_id" method="POST">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Prénom</label>
-                            <input type="text" name="name" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Nom</label>
-                            <input type="text" name="surname" class="form-control" required>
-                        </div>
-                    </div>
-                    <label>E-mail</label>
-                    <input type="email" name="email" class="form-control" required>
-                    <label>Téléphone</label>
-                    <input type="tel" name="phone" class="form-control">
-                    <label>Raison du contact</label>
-                    <select name="reason" class="form-select">
-                        <option value="produit">Détails Produit</option>
-                        <option value="general">Demande Générale</option>
-                        <option value="autre">Autre</option>
-                    </select>
-                    <label>Votre Message</label>
-                    <textarea name="message" class="form-control" rows="5" required></textarea>
-                    <button type="submit" class="btn btn-gold px-5 mt-3">Envoyer le Message</button>
-                </form>
+            <div class="col-md-6">
+                <label>Numéro de Carte</label>
+                <input type="text" class="form-control bg-dark text-white mb-3" placeholder="0000 0000 0000 0000">
+                <div class="row">
+                    <div class="col-6"><label>Expiration</label><input type="text" class="form-control bg-dark text-white" placeholder="MM/YY"></div>
+                    <div class="col-6"><label>CVC</label><input type="text" class="form-control bg-dark text-white" placeholder="123"></div>
+                </div>
+                <button class="btn-checkout mt-4">PAYER MAINTENANT</button>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>MASSEL SIGNATURE &copy; 2026. Design Exclusive.</p>
-    </footer>
+    <script>
+        let cart = [];
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartUI();
+            // Scroll to Panier so user sees it worked
+            document.getElementById('panier').scrollIntoView();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-content');
+            const totalArea = document.getElementById('cart-total-area');
+            const totalPriceElement = document.getElementById('total-price');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">Votre panier est vide.</p>';
+                totalArea.style.display = 'none';
+                return;
+            }
+
+            totalArea.style.display = 'block';
+            container.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span>${item.price},00 €</span>
+                    </div>
+                `;
+            });
+
+            totalPriceElement.innerText = total + ",00 €";
+        }
+
+        function goToPayment() {
+            document.getElementById('payment-area').style.display = 'block';
+            document.getElementById('payment-area').scrollIntoView();
+        }
+    </script>
 </body>
 </html>
