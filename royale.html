@@ -63,22 +63,30 @@
         </div>
     </div>
 
-    <script>
-        function addToCart(name, price) {
-            // Get existing cart or create new array
+  <script>
+    function addToCart(name, price) {
+        try {
+            // 1. Pull existing cart or start new
             let cart = JSON.parse(localStorage.getItem('masselCart')) || [];
-            
-            // Add item to array
-            cart.push({
-                name: name,
-                price: price,
-                image: name.toLowerCase() + ".png"
-            });
 
-            // Save back to memory
+            // 2. Create the item object
+            const newItem = {
+                name: name,
+                price: parseInt(price),
+                image: name.toLowerCase() + ".png"
+            };
+
+            // 3. Add to list and save
+            cart.push(newItem);
             localStorage.setItem('masselCart', JSON.stringify(cart));
-            alert(name + " ajouté ! Vous pouvez continuer vos achats ou aller au Panier.");
+
+            // 4. Feedback
+            alert("Succès ! " + name + " est dans votre panier.");
+        } catch (error) {
+            console.error("Cart Error:", error);
+            alert("Erreur technique lors de l'ajout.");
         }
-    </script>
+    }
+</script>
 </body>
 </html>
