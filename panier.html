@@ -63,64 +63,63 @@
         </div>
     </div>
 
-    <script>
-        // FUNCTION 1: Load and Show Items
-        function refreshCartDisplay() {
-            const cart = JSON.parse(localStorage.getItem('masselCart')) || [];
-            const container = document.getElementById('cart-list-container');
-            const summary = document.getElementById('summary-section');
-            const totalDisplay = document.getElementById('final-total');
+<script>
+    function refreshCartDisplay() {
+        // 1. Explicitly look for the key 'masselCart'
+        const rawData = localStorage.getItem('masselCart');
+        const cart = JSON.parse(rawData) || [];
+        
+        const container = document.getElementById('cart-list-container');
+        const summary = document.getElementById('summary-section');
+        const totalDisplay = document.getElementById('final-total');
 
-            if (cart.length === 0) {
-                container.innerHTML = '<p class="text-center py-4 text-muted">Votre panier est actuellement vide.</p>';
-                summary.style.display = 'none';
-                return;
-            }
+        // 2. Clear the container first
+        container.innerHTML = '';
 
-            summary.style.display = 'block';
-            container.innerHTML = '';
-            let totalValue = 0;
+        if (cart.length === 0) {
+            container.innerHTML = '<p class="text-center py-4 text-muted">Votre panier est vide.</p>';
+            summary.style.display = 'none';
+            return;
+        }
 
-            cart.forEach((item, index) => {
-                totalValue += parseInt(item.price);
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${item.image}" class="cart-img" alt="${item.name}">
-                        <div class="flex-grow-1">
-                            <h5 class="mb-0 text-white">${item.name}</h5>
-                            <small class="text-muted">450,00 €</small>
-                        </div>
-                        <button class="delete-btn" onclick="removeItem(${index})">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
+        // 3. Show items
+        summary.style.display = 'block';
+        let totalValue = 0;
+
+        cart.forEach((item, index) => {
+            totalValue += item.price;
+            container.innerHTML += `
+                <div class="cart-item d-flex align-items-center border-bottom border-secondary py-3">
+                    <img src="${item.image}" style="width:70px; height:70px; object-fit:cover; border:1px solid #C5A059; margin-right:15px;">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0">${item.name}</h6>
+                        <small style="color:#C5A059">${item.price},00 €</small>
                     </div>
-                `;
-            });
+                    <button class="btn btn-sm text-danger" onclick="removeItem(${index})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            `;
+        });
 
-            totalDisplay.innerText = totalValue + ",00 €";
-        }
+        totalDisplay.innerText = totalValue + ",00 €";
+    }
 
-        // FUNCTION 2: Remove single item
-        function removeItem(index) {
-            let cart = JSON.parse(localStorage.getItem('masselCart')) || [];
-            // Remove the item at the specific index
-            cart.splice(index, 1); 
-            // Save updated list
-            localStorage.setItem('masselCart', JSON.stringify(cart));
-            // Refresh the view
-            refreshCartDisplay();
-        }
+    function removeItem(index) {
+        let cart = JSON.parse(localStorage.getItem('masselCart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('masselCart', JSON.stringify(cart));
+        refreshCartDisplay();
+    }
 
-        // FUNCTION 3: Final Payment
-        function handlePayment() {
-            const cart = JSON.parse(localStorage.getItem('masselCart'));
-            alert("Merci ! Paiement validé pour vos " + cart.length + " œuvres.");
-            localStorage.removeItem('masselCart');
-            window.location.href = "index.html";
-        }
+    function handlePayment() {
+        alert("Paiement validé !");
+        localStorage.removeItem('masselCart');
+        window.location.href = "index.html";
+    }
 
-        // Run on Page Load
-        document.addEventListener('DOMContentLoaded', refreshCartDisplay);
-    </script>
+    // CRITICAL: Run this immediately
+    window.onload = refreshCartDisplay;
+</script>
 </body>
 </html>
