@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panier | MASSEL SIGNATURE</title>
+    <title>Mon Panier | MASSEL SIGNATURE</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -11,69 +11,90 @@
 
     <style>
         :root { --gold: #C5A059; --black: #0a0a0a; --grey: #1a1a1a; }
-        body { background-color: var(--black); color: #fff; font-family: 'Montserrat', sans-serif; }
-        h1, h2 { font-family: 'Playfair Display', serif; color: var(--gold); }
-        .navbar { background: #111 !important; border-bottom: 1px solid var(--gold); padding: 15px 0; }
-        .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.8rem; margin: 0 15px; }
-        .checkout-box { background: var(--grey); border: 1px solid var(--gold); padding: 40px; margin-top: 30px; }
+        body { background-color: var(--black); color: #fff; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
+        h2, h5 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+        .navbar { background: #111 !important; border-bottom: 1px solid var(--gold); padding: 10px 0; }
+        .nav-link { color: #fff !important; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; margin: 0 8px; }
+
+        .checkout-box { background: var(--grey); border: 1px solid var(--gold); padding: 20px; margin-top: 20px; }
+        
+        /* Mobile-Specific Cart Items */
         .cart-item { display: flex; align-items: center; border-bottom: 1px solid #333; padding: 15px 0; }
-        .cart-img { width: 70px; height: 70px; object-fit: cover; border: 1px solid var(--gold); margin-right: 20px; }
-        .btn-pay { background: var(--gold); color: #000; font-weight: bold; width: 100%; border: none; padding: 18px; margin-top: 30px; letter-spacing: 2px; }
-        .text-gold { color: var(--gold); }
-        .form-control { background: #111 !important; border: 1px solid #444 !important; color: #fff !important; border-radius: 0; }
+        .cart-img { width: 60px; height: 60px; object-fit: cover; border: 1px solid var(--gold); margin-right: 15px; }
+        .item-info h6 { font-size: 0.9rem; margin: 0; }
+        .item-info small { color: var(--gold); font-weight: 600; }
+
+        .btn-pay { 
+            background: var(--gold); color: #000; font-weight: bold; width: 100%; border: none; 
+            padding: 15px; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Payment Radio Buttons */
+        .form-check-input:checked { background-color: var(--gold); border-color: var(--gold); }
+        .form-check-label { font-size: 0.85rem; padding-left: 5px; }
+
+        @media (max-width: 576px) {
+            .brand-header h1 { font-size: 1.5rem; }
+            .checkout-box { padding: 15px; border: none; background: transparent; }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand navbar-dark sticky-top">
         <div class="container justify-content-center">
             <div class="navbar-nav">
-                <a class="nav-link" href="index.html">Accueil</a>
-                <a class="nav-link" href="royale.html">Royale Strip</a>
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="royale.html">Royale</a>
                 <a class="nav-link active" href="panier.html">Panier</a>
                 <a class="nav-link" href="contact.html">Contact</a>
             </div>
         </div>
     </nav>
 
-    <div class="container py-5">
-        <h2 class="text-center mb-4">VOTRE PANIER</h2>
+    <div class="container py-4">
+        <h2 class="text-center mb-4" style="font-size: 1.6rem; letter-spacing: 3px;">VOTRE SÉLECTION</h2>
+        
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-lg-6 col-md-8">
                 <div class="checkout-box">
-                    <div id="cart-list-container"></div>
-
-                    <div id="summary-section" style="display:none;">
-                        <div class="d-flex justify-content-between fs-4 mt-4 pt-3 border-top border-secondary">
-                            <span>TOTAL</span>
-                            <span id="final-total" class="text-gold">0,00 €</span>
+                    <div id="cart-list-container">
                         </div>
 
-                        <h5 class="mt-5 mb-3 text-gold">MÉTHODE DE PAIEMENT</h5>
-                        <div class="mb-4">
+                    <div id="summary-section" style="display:none;">
+                        <div class="d-flex justify-content-between fs-5 mt-4 pt-3 border-top border-secondary">
+                            <span>TOTAL</span>
+                            <span id="final-total" style="color:var(--gold); font-weight: bold;">0,00 €</span>
+                        </div>
+
+                        <h5 class="mt-4 mb-3" style="font-size: 1.1rem;">MODE DE PAIEMENT</h5>
+                        <div class="payment-options mb-4">
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="payMethod" id="card" onclick="togglePaymentFields('card')">
-                                <label class="form-check-label" for="card">Carte Bancaire (Stripe)</label>
+                                <input class="form-check-input" type="radio" name="payMethod" id="card" onclick="toggleFields('card')">
+                                <label class="form-check-label" for="card">Carte Bancaire</label>
                             </div>
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="payMethod" id="paypal" onclick="togglePaymentFields('paypal')">
+                                <input class="form-check-input" type="radio" name="payMethod" id="paypal" onclick="toggleFields('paypal')">
                                 <label class="form-check-label" for="paypal">PayPal</label>
                             </div>
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="payMethod" id="transfer" onclick="togglePaymentFields('transfer')">
+                                <input class="form-check-input" type="radio" name="payMethod" id="transfer" onclick="toggleFields('transfer')">
                                 <label class="form-check-label" for="transfer">Virement Bancaire</label>
                             </div>
                         </div>
 
-                        <div id="card-details" style="display:none;" class="mb-4">
-                            <input type="text" class="form-control mb-2" placeholder="Nom sur la carte">
-                            <input type="text" class="form-control mb-2" placeholder="Numéro de carte">
-                            <div class="row"><div class="col-6"><input type="text" class="form-control" placeholder="MM/YY"></div><div class="col-6"><input type="text" class="form-control" placeholder="CVC"></div></div>
+                        <div id="card-details" class="mb-3" style="display:none;">
+                            <input type="text" class="form-control mb-2 bg-dark text-white border-secondary" placeholder="Nom sur la carte">
+                            <input type="text" class="form-control mb-2 bg-dark text-white border-secondary" placeholder="Numéro de carte">
+                            <div class="row g-2">
+                                <div class="col-6"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="MM/YY"></div>
+                                <div class="col-6"><input type="text" class="form-control bg-dark text-white border-secondary" placeholder="CVC"></div>
+                            </div>
                         </div>
 
-                        <div id="bank-details" style="display:none;" class="alert alert-dark small">L'IBAN vous sera transmis par e-mail après validation.</div>
-
-                        <button class="btn-pay" id="pay-btn" onclick="processFinalPayment()">FINALISER LA COMMANDE</button>
+                        <button class="btn-pay" id="pay-btn" onclick="executePayment()">CONFIRMER LA COMMANDE</button>
                     </div>
                 </div>
             </div>
@@ -81,55 +102,56 @@
     </div>
 
     <script>
-        function togglePaymentFields(method) {
-            document.getElementById('card-details').style.display = (method === 'card') ? 'block' : 'none';
-            document.getElementById('bank-details').style.display = (method === 'transfer') ? 'block' : 'none';
-            document.getElementById('pay-btn').innerText = (method === 'paypal') ? 'PAYER AVEC PAYPAL' : 'FINALISER LA COMMANDE';
+        function toggleFields(m) {
+            document.getElementById('card-details').style.display = (m === 'card') ? 'block' : 'none';
         }
 
-        function renderCart() {
+        function refreshPanier() {
             const cart = JSON.parse(localStorage.getItem('masselCart')) || [];
             const container = document.getElementById('cart-list-container');
             const summary = document.getElementById('summary-section');
-            container.innerHTML = '';
             
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-center py-4 text-muted">Votre panier est vide.</p>';
+                container.innerHTML = '<p class="text-center text-muted py-5">Votre panier est vide.</p>';
                 summary.style.display = 'none';
                 return;
             }
 
             summary.style.display = 'block';
             let total = 0;
+            container.innerHTML = '';
+
             cart.forEach((item, index) => {
                 total += item.price;
                 container.innerHTML += `
                     <div class="cart-item">
                         <img src="${item.image}" class="cart-img">
-                        <div class="flex-grow-1"><h6 class="mb-0">${item.name}</h6><small class="text-muted">450,00 €</small></div>
-                        <button class="btn btn-sm text-danger" onclick="removeItem(${index})"><i class="bi bi-trash"></i></button>
+                        <div class="flex-grow-1 item-info">
+                            <h6>${item.name}</h6>
+                            <small>${item.price},00 €</small>
+                        </div>
+                        <button class="btn btn-sm text-danger" onclick="deleteItem(${index})"><i class="bi bi-x-lg"></i></button>
                     </div>`;
             });
             document.getElementById('final-total').innerText = total + ",00 €";
         }
 
-        function removeItem(index) {
+        function deleteItem(i) {
             let cart = JSON.parse(localStorage.getItem('masselCart'));
-            cart.splice(index, 1);
+            cart.splice(i, 1);
             localStorage.setItem('masselCart', JSON.stringify(cart));
-            renderCart();
+            refreshPanier();
         }
 
-        function processFinalPayment() {
+        function executePayment() {
             const method = document.querySelector('input[name="payMethod"]:checked');
             if (!method) return alert("Veuillez choisir un mode de paiement.");
-            
-            alert("Traitement via " + method.id + "... Commande enregistrée.");
+            alert("Merci ! Commande en cours de traitement.");
             localStorage.removeItem('masselCart');
             window.location.href = "index.html";
         }
 
-        window.onload = renderCart;
+        window.onload = refreshPanier;
     </script>
 </body>
 </html>
