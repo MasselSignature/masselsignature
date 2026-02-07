@@ -3,123 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Massel Signature | L’art devient une signature</title>
+    <title>Massel Signature | Accueil</title>
     <style>
-        /* STYLE GÉNÉRAL */
+        /* Réinitialisation de base pour réparer l'affichage */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #ffffff;
+            font-family: 'Playfair Display', serif; /* Style artistique */
+            line-height: 1.6;
             color: #1a1a1a;
-            line-height: 1.8;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: #fff;
         }
 
-        /* CONTENEUR PRINCIPAL */
-        .container {
-            max-width: 900px;
-            padding: 80px 20px;
+        /* Menu de Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo { font-weight: bold; letter-spacing: 2px; }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: #000; text-transform: uppercase; font-size: 0.8rem; }
+
+        /* Section Principale */
+        .hero {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 0 20px;
             text-align: center;
         }
 
-        /* TITRE ET SLOGAN */
-        h1 {
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            font-weight: 300;
-            margin-bottom: 10px;
-        }
+        h1 { font-size: 2.5rem; margin-bottom: 20px; text-transform: uppercase; }
+        .tagline { font-style: italic; margin-bottom: 40px; color: #555; }
 
-        .tagline {
-            font-style: italic;
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 60px;
-        }
-
-        /* TEXTE DE PRÉSENTATION */
-        .content {
-            font-size: 1.15rem;
-            text-align: justify;
-            margin-bottom: 40px;
-        }
-
-        .content p {
-            margin-bottom: 25px;
-        }
-
-        /* MISE EN AVANT (EMPHASE) */
-        .highlight {
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: #000;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            padding: 40px 0;
+        .description { text-align: justify; margin-bottom: 30px; }
+        
+        .highlight-box {
+            background: #fdfdfd;
+            border-left: 3px solid #000;
+            padding: 30px;
             margin: 40px 0;
-            line-height: 1.5;
+            font-size: 1.2rem;
         }
 
-        /* QUALITÉ TECHNIQUE */
-        .technical-note {
-            font-size: 0.95rem;
-            color: #555;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        /* SIGNATURE FINALE */
-        .footer-signature {
-            margin-top: 80px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        /* ADAPTATION MOBILE */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .content { text-align: left; }
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>MASSEL SIGNATURE</h1>
-            <p class="tagline">L’art devient une signature.</p>
-        </header>
+    <nav>
+        <div class="logo">MASSEL SIGNATURE</div>
+        <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="#">Galerie</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
 
-        <section class="content">
-            <p>Chaque œuvre est pensée comme une création à part entière, mêlant caractère, force, puissance, émotion et esthétisme.</p>
-            
-            <p>Mes créations transforment vos murs en véritables présences visuelles. 
-            Elles sont conçues pour marquer, s’imposer, capter le regard et faire vibrer un espace.</p>
-            
-            <p>Puissantes ou plus chaleureuses, elles s’intègrent aussi bien dans un intérieur moderne et luxueux que dans un univers plus doux et accueillant.</p>
+    <div class="hero">
+        <h1>L’art devient une signature</h1>
+        <p class="tagline">Chaque œuvre est pensée comme une création à part entière.</p>
 
-            <div class="highlight">
-                Ici, vous ne choisissez pas simplement un tableau. <br>
-                Vous choisissez une énergie, un caractère, une ambiance qui vous ressemble. <br>
-                Une façon d’habiter et d’habiller votre espace.
-            </div>
+        <div class="description">
+            <p>Mêlant caractère, force, puissance, émotion et esthétisme, mes créations transforment vos murs en véritables présences visuelles. Elles sont conçues pour marquer, s’imposer, capter le regard et faire vibrer un espace.</p>
+        </div>
 
-            <p class="technical-note">
-                Toutes les œuvres sont livrées en format haute qualité, vous laissant une liberté totale d’impression sur papier, toile, tissu ou plexiglas, au format qui vous ressemble.
-            </p>
-        </section>
+        <div class="highlight-box">
+            "Ici, vous ne choisissez pas simplement un tableau. Vous choisissez une énergie, un caractère, une ambiance qui vous ressemble."
+        </div>
 
-        <footer>
-            <p class="footer-signature">MASSEL SIGNATURE — Là où Massel appose sa signature.</p>
-        </footer>
+        <p>Toutes les œuvres sont livrées en format haute qualité (papier, toile, tissu ou plexiglas).</p>
     </div>
+
+    <footer>
+        MASSEL SIGNATURE — Là où Massel appose sa signature.
+    </footer>
 
 </body>
 </html>
